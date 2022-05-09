@@ -1,4 +1,2 @@
 # main-proj-BE
-brah dep
-나는야 현식
-PRO D 대장이라네
+충돌난거 결국 이렇게 할거야~~~
