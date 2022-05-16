@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.member.service;
 
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.member.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,14 +11,8 @@ import org.springframework.stereotype.Service;
  * Created by Hyunsik Lee on 2022-05-08. Blog : https://hs95blue.github.io/ Github :
  * https://github.com/hs95blue
  */
-@RequiredArgsConstructor
-@Service
-public class CustomUserDetailService implements UserDetailsService {
 
-  private final UserMapper userMapper;
+public interface CustomUserDetailService extends UserDetailsService {
 
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return userMapper.findByEmail(username);
-  }
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }

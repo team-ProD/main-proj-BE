@@ -1,6 +1,6 @@
-package com.example.demo.mapper;
+package com.example.demo.member.mapper;
 
-import com.example.demo.vo.User;
+import com.example.demo.member.vo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

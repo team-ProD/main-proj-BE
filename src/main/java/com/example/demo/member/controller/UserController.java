@@ -1,8 +1,8 @@
-package com.example.demo.controller;
+package com.example.demo.member.controller;
 
 import com.example.demo.JwtTokenProvider;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.vo.User;
+import com.example.demo.member.mapper.UserMapper;
+import com.example.demo.member.vo.User;
 import java.util.Collections;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
