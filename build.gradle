@@ -36,9 +36,7 @@ dependencies {
     // MyBatis 라이브러리 의존성 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
-    testImplementation 'org.springframework.security:spring-security-test'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 }
 
 tasks.named('test') {
@@ -47,7 +45,7 @@ tasks.named('test') {
 jar {
     enabled = false
     manifest {
-        attributes 'Main-Class': 'com.example.bsm.BsmApplication'
+        attributes 'Main-Class': 'com.example.demo.DemoApplication'
     }
     from {
         configurations.runtimeClasspath.collect {
