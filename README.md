@@ -69,3 +69,9 @@ ex) feature/login (feature로 쓸지 feat로 줄여쓸지는 이야기 해봅시
 ![image](https://user-images.githubusercontent.com/53857239/169197656-b5500de1-e447-4e36-b77f-2a0701499ff0.png)
 > 이슈번호 적어주시고 내용 채워주시고~ 리뷰어 지정해주시고~  
     빨간 네모부분은 develop으로 바꿔줍시당.
+
+### 브랜치 삭제
+앞으로 또 똑같이 쓸게 아니라면 리모트와 로컬 브랜치 모두삭제!  
+but 리모트에서 병합도 되기전에 삭제해버리면.. 코드날아가는거 아시죠?
+밑에 보고 잘 따라해주셔. 화이팅!
+[깃 사용법 참고!](https://mylko72.gitbooks.io/git/content/remote/branch.html)
