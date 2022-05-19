@@ -1,5 +1,3 @@
-# main-proj-BE
-
 
 
 ### 1. 이슈등록
@@ -11,7 +9,7 @@
 
 > 제목은 잘 고민해서 통일하기!
 
-### 2. 브랜치 생성  
+### 2. 브랜치 생성  및 푸시
   
 2-1. 현재 가지고 있는 **브랜치 확인**하기
 > 현재 가진 브랜치를 확인하는 커맨드  
@@ -51,3 +49,23 @@ ex) feature/login (feature로 쓸지 feat로 줄여쓸지는 이야기 해봅시
 
 당연히 1번으로 해야겠죠?
 
+![image](https://user-images.githubusercontent.com/53857239/169196903-f8e2ea3c-1996-4622-9910-51c4b6169df9.png)
+
+> READEME.md 파일을 수정한 후 commit & push  
+보니까 원격저장소엔 지금 제가 만든 브랜치가 없으니, 만들고 올리고 싶으면  
+ git push --set-upstream origin docs/git-flow  
+를 쓰라네요!
+
+
+![image](https://user-images.githubusercontent.com/53857239/169197172-57e72054-657c-4d4a-a8b2-a35387c8e0e2.png)
+
+> 하라는대로 하니 평화롭게 잘 올라가 주었습니다. 굿!
+
+### PR 및 이슈 클로즈
+![image](https://user-images.githubusercontent.com/53857239/169197290-7c1b52f0-e898-4321-9bdf-3db78fa78467.png)
+
+> github 화면에 이런식으로 표시됩니다.
+
+![image](https://user-images.githubusercontent.com/53857239/169197656-b5500de1-e447-4e36-b77f-2a0701499ff0.png)
+> 이슈번호 적어주시고 내용 채워주시고~ 리뷰어 지정해주시고~  
+    빨간 네모부분은 develop으로 바꿔줍시당.
