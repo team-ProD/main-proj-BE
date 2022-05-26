@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper>
+<mapper namespace="com.example.demo.member.mapper.MemberMapper">
 
+    <insert id="save" parameterType="com.example.demo.member.vo.MemberVO">
+        INSERT INTO MEMBER(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE, CREATE_DATE, MODIFY_DATE) VALUES (#{email}, #{password}, #{name}, #{role}, #{privacyAgree}, #{remoteLoginAgree}, NOW(), NOW());
+    </insert>
+
+    <select id="findByEmail" resultType="com.example.demo.member.vo.MemberVO" parameterType="com.example.demo.member.vo.MemberVO">
+        SELECT * FROM MEMBER WHERE email = #{email}
+    </select>
 </mapper>
