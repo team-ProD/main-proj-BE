@@ -1,4 +1,4 @@
-package com.example.demo.jwt;
+package com.example.demo.member.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;

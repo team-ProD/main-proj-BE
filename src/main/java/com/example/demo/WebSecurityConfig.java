@@ -1,7 +1,8 @@
 package com.example.demo;
 
 
-import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.member.jwt.JwtAuthenticationFilter;
+import com.example.demo.member.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
