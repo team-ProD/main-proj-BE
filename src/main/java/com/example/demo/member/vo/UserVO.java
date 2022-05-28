@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Data
-public class User implements UserDetails {
+public class UserVO implements UserDetails {
 
     private int id;
     private String email;

@@ -1,7 +1,7 @@
-package com.example.demo.member.service;
+package com.example.demo.member.service.impl;
 
 import com.example.demo.member.mapper.UserMapper;
-import com.example.demo.member.vo.User;
+import com.example.demo.member.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
     //(쉽게 말하자면 UserDetails는 인터페이스, User는 그걸 구현해둔 객체!)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = new User();
+        UserVO user = new UserVO();
         HashMap<String, String> userDbInfo = userMapper.findByEmail(username);
         user.setEmail(userDbInfo.get("email"));
         user.setPassword(userDbInfo.get("password"));
