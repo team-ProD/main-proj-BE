@@ -35,4 +35,14 @@
 
     </insert>
 
+    <update id="chgPass" parameterType="Map">
+        UPDATE member
+        SET PASSWORD = #{chgPassword}
+        WHERE email = #{email}
+
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </update>
+
 </mapper>

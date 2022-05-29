@@ -6,7 +6,11 @@ import com.example.demo.member.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -25,5 +29,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.save(user);
     }
 
+    public int chgPassword(String email, String chgPassword){
+        Map<String, String> chgInfo = new HashMap<>();
+        chgInfo.put("email", email);
+        chgInfo.put("chgPassword", chgPassword);
 
+        return userMapper.chgPass(chgInfo);
+    }
 }

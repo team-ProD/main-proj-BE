@@ -6,4 +6,6 @@ import com.example.demo.member.vo.UserVO;
 public interface UserService {
 
     public int saveUser(UserVO user);
+
+    public int chgPassword(String email, String chgPassword);
 }

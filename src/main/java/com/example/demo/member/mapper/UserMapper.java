@@ -12,4 +12,6 @@ public interface UserMapper {
     int save(UserVO user);
 
     UserVO findByEmail(String email);
+
+    int chgPass(Map chgInfo);
 }

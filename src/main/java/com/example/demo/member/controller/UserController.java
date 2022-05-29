@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,6 +55,7 @@ public class UserController {
             }
         }catch (Exception e){
             messageVo.setMessage("회원가입을 실패하였습니다.");
+            messageVo.setStatus(HttpStatus.BAD_REQUEST);
             e.printStackTrace();
         }
 
@@ -98,12 +97,37 @@ public class UserController {
             }
         }catch (IllegalArgumentException e){
             messageVo.setMessage("로그인 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.NOT_FOUND);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST);
             e.printStackTrace();
         }
         catch(Exception e){
             messageVo.setMessage("로그인을 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.NOT_FOUND);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST);
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
+    }
+
+
+    @PutMapping("/members/password/{email}")
+    public ResponseEntity<MessageVO> changePassword(@RequestBody Map<String, String> user, @PathVariable String email) {
+        int dbResult = 0;
+        MessageVO messageVo = new MessageVO();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("demo", "ChangePasswrod");
+
+        try{
+            dbResult = useService.chgPassword(email, user.get("password"));
+            if(dbResult <= 0){
+                throw new Exception();
+            }else {
+                messageVo.setMessage("비밀번호 변경을 성공하였습니다.");
+                messageVo.setStatus(HttpStatus.OK);
+            }
+        }catch (Exception e){
+            messageVo.setMessage("비밀번호 수정을 실패하였습니다.");
+            messageVo.setStatus(HttpStatus.BAD_REQUEST);
             e.printStackTrace();
         }
 
