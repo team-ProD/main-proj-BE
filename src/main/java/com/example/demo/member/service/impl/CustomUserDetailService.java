@@ -23,9 +23,14 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserVO user = new UserVO();
         HashMap<String, String> userDbInfo = userMapper.findByEmail(username);
-        user.setEmail(userDbInfo.get("email"));
-        user.setPassword(userDbInfo.get("password"));
-        user.setRoles(Collections.singletonList(userDbInfo.get("roles")));
+        System.out.println("DbInfo: " + userDbInfo);
+//        System.out.println("###################################################################" + userDbInfo.get("RemoteLoginAgree"));
+        user.setEmail(userDbInfo.get("EMAIL"));
+        user.setPassword(userDbInfo.get("PASSWORD"));
+        user.setName(userDbInfo.get("NAME"));
+        //String 타입의 role을 List로 만들어서 UserDetails에 담아야한다.
+        user.setRoles(Collections.singletonList(userDbInfo.get("ROLE")));
+        user.setRole(userDbInfo.get("ROLE"));
 
 //      return userMapper.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
         return user;

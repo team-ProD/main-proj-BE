@@ -22,9 +22,14 @@ public class UserVO implements UserDetails {
     private int id;
     private String email;
     private String password;
+    private String name;
     @Builder.Default
     private List<String> roles = new ArrayList<>();
-
+    private String role;
+    private int privacyAgree;
+    private int remoteLoginAgree;
+    private String createDate;
+    private String modifyDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

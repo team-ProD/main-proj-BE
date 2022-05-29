@@ -3,38 +3,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.example.demo.member.mapper.UserMapper">
 
-<!--    &lt;!&ndash;user 조회 &ndash;&gt;-->
-<!--    <select id="findByEmail" parameterType="String" resultType="User">-->
-<!--        SELECT * FROM user WHERE email = #{email}-->
-<!--    </select>-->
+    <resultMap id="MemberVOResultMap" type="com.example.demo.member.vo.UserVO">
+        <result property="email" column="EMAIL"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="name" column="NAME"/>
+        <result property="role" column="ROLE"/>
+        <result property="privacyAgree" column="PRIVACY_AGREE"/>
+        <result property="remoteLoginAgree" column="REMOTE_LOGIN_AGREE"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+    </resultMap>
 
-<!--    &lt;!&ndash;선수 개인 기록 등록 &ndash;&gt;-->
-<!--    <insert id="save" parameterType="user" useGeneratedKeys="true" keyProperty="id">-->
-<!--        INSERT INTO user(email,password)-->
-<!--        VALUES(#{email}, #{password})-->
-
-<!--        &lt;!&ndash;사용자 기록 등록 확인하기 위한 select 문 &ndash;&gt;-->
-<!--        <selectKey keyProperty="id" resultType="int" order="AFTER">-->
-<!--            SELECT LAST_INSERT_ID()-->
-<!--        </selectKey>-->
-
-<!--    </insert>-->
-
-    <!--########################################authuser Table###################################################### -->
-    <!--############################################################################################################ -->
-
-    <!--authuser 조회 -->
+    <!--member 조회 -->
     <select id="findByEmail" parameterType="String" resultType="hashMap">
-        SELECT * FROM authuser WHERE email = #{email}
+<!--    <select id="findByEmail" parameterType="String" resultMap="MemberVOResultMap">-->
+        SELECT *
+        FROM member
+        WHERE email = #{email}
     </select>
 
-    <!--authuser 등록 -->
-    <insert id="save" parameterType="hashMap" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO authuser(email, password, roles)
-        VALUES(#{email}, #{password}, #{roles})
+    <!--member 등록 -->
+    <insert id="save" parameterType="userVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE , CREATE_DATE, MODIFY_DATE)
+        VALUES(#{email}, #{password}, #{name}, #{role}, #{privacyAgree}, #{remoteLoginAgree}, now(), now());
 
         <!--사용자 기록 등록 확인하기 위한 select 문 -->
         <selectKey keyProperty="id" resultType="int" order="AFTER">

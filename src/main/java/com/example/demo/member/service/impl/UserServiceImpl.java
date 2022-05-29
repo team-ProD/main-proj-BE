@@ -6,9 +6,7 @@ import com.example.demo.member.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -16,13 +14,15 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     public int saveUser(UserVO user){
-        Map<String, String> userData = new HashMap<>();
-        userData.put("email", user.getEmail());
-        userData.put("password", user.getPassword());
+        //roles 가 List 형식임으로 String role 로 넣어주기
+        String r = "";
         List<String> userRoles = user.getRoles();
-        userRoles.forEach(r -> userData.put("roles", r));
-
-        return userMapper.save(userData);
+        for(String roleData : userRoles){
+            r = roleData;
+        }
+        user.setRole(r);
+        System.out.println("유저 정보: " + user);
+        return userMapper.save(user);
     }
 
 

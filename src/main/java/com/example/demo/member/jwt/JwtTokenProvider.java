@@ -55,7 +55,6 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token){
         //email을 가져와 해당 email에 대한 useDetails 객체를 받아온다.
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        
         //인증용 객체 생성시 email에 해당하는 user 객체를 넣어줌으로써 해당 유저의 권한 부여
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
