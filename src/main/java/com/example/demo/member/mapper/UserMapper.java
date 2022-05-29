@@ -11,5 +11,5 @@ public interface UserMapper {
 
     int save(UserVO user);
 
-    HashMap findByEmail(String email);
+    UserVO findByEmail(String email);
 }

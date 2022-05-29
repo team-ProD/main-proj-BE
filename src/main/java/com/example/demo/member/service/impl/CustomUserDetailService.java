@@ -21,18 +21,11 @@ public class CustomUserDetailService implements UserDetailsService {
     //(쉽게 말하자면 UserDetails는 인터페이스, User는 그걸 구현해둔 객체!)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserVO user = new UserVO();
-        HashMap<String, String> userDbInfo = userMapper.findByEmail(username);
+        UserVO userDbInfo = userMapper.findByEmail(username);
         System.out.println("DbInfo: " + userDbInfo);
-//        System.out.println("###################################################################" + userDbInfo.get("RemoteLoginAgree"));
-        user.setEmail(userDbInfo.get("EMAIL"));
-        user.setPassword(userDbInfo.get("PASSWORD"));
-        user.setName(userDbInfo.get("NAME"));
         //String 타입의 role을 List로 만들어서 UserDetails에 담아야한다.
-        user.setRoles(Collections.singletonList(userDbInfo.get("ROLE")));
-        user.setRole(userDbInfo.get("ROLE"));
+        userDbInfo.setRoles(Collections.singletonList(userDbInfo.getRole()));
 
-//      return userMapper.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-        return user;
+        return userDbInfo;
     }
 }

@@ -71,7 +71,7 @@ public class UserController {
         MessageVO messageVo = new MessageVO();
 
         String roles = "";
-        HashMap<String, String> member = null;
+        UserVO member = null;
         List<String> userRoles = null;
         HashMap<String,Object> data = new HashMap<>();
 
@@ -81,18 +81,18 @@ public class UserController {
             if (member == null) {
                 throw new IllegalArgumentException();
             }
-            else if (!passwordEncoder.matches(user.get("password"), member.get("PASSWORD"))) {
+            else if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
 
                 throw new IllegalArgumentException();
             }
             else {
-                userRoles = Collections.singletonList(member.get("roles"));
+                userRoles = member.getRoles();
                 messageVo.setMessage("로그인을 성공하였습니다.");
                 messageVo.setStatus(HttpStatus.OK);
 
         //      jwtTokenProvider.createToken(member의 이름(여기서는 email), rolesList);
         //      생성된 jwt 토큰값 넣기.
-                data.put("jwt", jwtTokenProvider.createToken(member.get("EMAIL"), userRoles));
+                data.put("jwt", jwtTokenProvider.createToken(member.getEmail(), userRoles));
                 messageVo.setData(data);
 
             }

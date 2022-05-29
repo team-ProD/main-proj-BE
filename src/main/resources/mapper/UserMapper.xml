@@ -17,8 +17,7 @@
     </resultMap>
 
     <!--member 조회 -->
-    <select id="findByEmail" parameterType="String" resultType="hashMap">
-<!--    <select id="findByEmail" parameterType="String" resultMap="MemberVOResultMap">-->
+    <select id="findByEmail" parameterType="String" resultMap="MemberVOResultMap">
         SELECT *
         FROM member
         WHERE email = #{email}
