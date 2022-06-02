@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.project.mapper.ProjectMapper">
+
+    <insert id="createProject" parameterType="ProjectVO">
+        INSERT INTO PROJECT
+        ( NAME
+        , LOGO_NAME
+        , LOGO_PATH
+        , SUMMARY
+        , ATTENDANT_NUMBER
+        , START_DATE
+        , END_DATE
+        , CREATE_DATE
+        , MODIFY_DATE)
+        VALUES ( #{name}
+               , #{logoName}
+               , #{logoPath}
+               , #{summary}
+               , #{attendantNumber}
+               , #{startDate}
+               , #{endDate}
+               , NOW()
+               , NOW())
+    </insert>
+
+    <select id="selectProject" parameterType="ProjectVO" resultType="ProjectVO">
+        SELECT *
+        FROM PROJECT
+        WHERE ID = #{id}
+    </select>
+
+    <update id="updateProject" parameterType="ProjectVO">
+        UPDATE PROJECT
+        <trim prefix="SET" suffixOverrides=",">
+            MODIFY_DATE = NOW(),
+            <if test="name != null and name != ''">NAME = #{name},</if>
+            <if test="logoName != null and logoName != ''">LOGO_NAME = #{logoName},</if>
+            <if test="logoPath != null and logoPath != ''">LOGO_PATH = #{logoPath},</if>
+            <if test="summary != null and summary != ''">SUMMARY = #{summary},</if>
+            <if test="startDate != null and startDate != ''">START_DATE = #{startDate},</if>
+            <if test="endDate != null and endDate != ''">END_DATE = #{endDate},</if>
+        </trim>
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="userAttendant" parameterType="ProjectVO">
+        INSERT INTO PROJECT_ATTENDANT
+        ( PROFILEID
+        , PROJECTID
+        , STATUS
+        , INVITE_DATE)
+        VALUES ( #{profileId}
+               , #{id}
+               , 'Y'
+               , NOW())
+    </insert>
+    
+    <update id="attendantAccept" parameterType="ProjectVO">
+        UPDATE PROJECT_ATTENDANT
+        SET JOIN_DATE = NOW()
+        WHERE PROFILEID = #{profileId}
+        AND PROJECTID = #{id}
+    </update>
+</mapper>
