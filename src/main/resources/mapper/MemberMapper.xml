@@ -4,7 +4,18 @@
 
 <mapper namespace="com.example.demo.member.mapper.MemberMapper">
 
-    <insert id="save" parameterType="com.example.demo.member.vo.MemberVO">
+    <select id="login" parameterType="com.example.demo.member.vo.MemberVO" resultType="com.example.demo.member.vo.MemberVO">
+        SELECT
+            EMAIL       AS emamil,
+            NAME        AS name,
+            ROLE        AS role,
+            CREATE_DATE AS createDate
+        FROM MEMBER
+        WHERE EMAIL = #{email}
+        AND   PASSWORD = #{password}
+    </select>
+
+    <insert id="signUp" parameterType="com.example.demo.member.vo.MemberVO">
         INSERT INTO MEMBER(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE, CREATE_DATE, MODIFY_DATE) VALUES (#{email}, #{password}, #{name}, #{role}, #{privacyAgree}, #{remoteLoginAgree}, NOW(), NOW());
     </insert>
 

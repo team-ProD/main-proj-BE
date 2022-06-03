@@ -14,16 +14,18 @@ public class MemberVO {
     private String email;
     private Role role;
     private String password;
+    private String picture;
     private String privacyAgree;
     private String remoteLoginAgree;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
     @Builder
-    public MemberVO(String name, String email, Role role) {
+    public MemberVO(String name, String email, Role role, String picture) {
         this.name = name;
         this.email = email;
         this.role = role;
+        this.picture = picture;
     }
 
     public MemberVO update(String name) {

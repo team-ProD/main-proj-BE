@@ -37,16 +37,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         "/",
+                        "/member/signup", // 회원가입
                         "/home/**",
                         "/test/**"
-                )
-                // 회원가입하지 않은 유저도 확인할 수 있는 페이지
-                .permitAll()
-                // 권한을 가진 유저만 접속할 수 있는 페이지 설정
-                .antMatchers("/api/**").hasRole(Role.USER.name())
-                .anyRequest().authenticated()
+                ).permitAll() // 회원가입하지 않은 유저도 확인할 수 있는 페이지
+                .antMatchers("/api/**").hasRole(Role.USER.name()) // 권한을 가진 유저만 접속할 수 있는 페이지 설정
+                .anyRequest().authenticated() // 위에 접근을 허가해둔 요청 외에 거부함
+                .and()
+                .oauth2Login().loginPage("/member/login").permitAll() // login
                 .and()
                 .logout().logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID") // 로그아웃하면 JSESSIONID 삭제
                 .and()
                 .oauth2Login().userInfoEndpoint().userService(customOAuth2MemberService);
     }

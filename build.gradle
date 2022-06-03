@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     compileOnly 'org.projectlombok:lombok'
@@ -30,15 +32,22 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc' //jdbc 의존성 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4' //mybatis 의존성 추가
     runtimeOnly 'mysql:mysql-connector-java'
-    //DB 관련 의존성 주입
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //DB 관련 의존성 주입
     // MyBatis 라이브러리 의존성 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 
     // Oauth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
 }
 

@@ -21,26 +21,26 @@ import java.util.Collections;
 public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberMapper memberMapper;
-    private final HttpSession httpSession;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         System.out.println("CustomOAuth2MemberService 진입 :: ");
+
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        // 현재 로그인 진행 중인 서비스를 구분하는 코드
+        // 현재 로그인 진행 중인 서비스를 구분하는 코드 (google)
         String registrationId = userRequest
                 .getClientRegistration()
                 .getRegistrationId();
 
-        // oauth2 로그인 진행 시 키가 되는 필드값
+        // oauth2 로그인 진행 시 키가 되는 필드값 (sub)
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails()
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
 
-        // OAuthAttributes: attribute를 담을 클래스 (개발자가 생성)
+        // OAuthAttributes: attribute를 담을 클래스 (사용자 정보, sub, name, given_name, family_name, picture, email, email_verified, locale)
         OAuthAttributes attributes = OAuthAttributes
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
@@ -60,7 +60,7 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
         }
         else {
             memberVO = attributes.toEntity();
-            memberMapper.save(memberVO);
+            memberMapper.signUp(memberVO);
             memberVO = memberMapper.findByEmail(attributes.getEmail());
         }
 
