@@ -1,10 +1,10 @@
-package com.example.demo.member.vo;
+package com.example.demo.tool.vo;
 
 import com.example.demo.common.vo.CommonVO;
 import lombok.Data;
 
 /**
- * Created by Hyunsik Lee on 2022-05-25. Blog : https://hs95blue.github.io/ Github :
+ * Created by Hyunsik Lee on 2022-06-04. Blog : https://hs95blue.github.io/ Github :
  * https://github.com/hs95blue
  */
 @Data
