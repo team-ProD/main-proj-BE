@@ -1,6 +1,7 @@
 package com.example.demo.member.controller;
 
 
+import com.example.demo.common.vo.Message;
 import com.example.demo.member.jwt.JwtTokenProvider;
 import com.example.demo.member.mapper.UserMapper;
 import com.example.demo.member.service.impl.UserServiceImpl;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +32,10 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/members/join")
-    public ResponseEntity<MessageVO> join(@RequestBody Map<String, String> user){
-        MessageVO message = new MessageVO();
+    public ResponseEntity<Message> join(@RequestBody Map<String, String> user){
         HttpHeaders headers = new HttpHeaders();
         headers.set("demo", "Join");
-        MessageVO messageVo = new MessageVO();
+        Message messageVo = new Message();
 
         try{
             int result = useService.saveUser(UserVO.builder()
@@ -51,11 +52,11 @@ public class UserController {
                 throw new Exception();
             }else{
                 messageVo.setMessage("회원가입을 성공하였습니다.");
-                messageVo.setStatus(HttpStatus.OK);
+                messageVo.setStatus(HttpStatus.OK.value());
             }
         }catch (Exception e){
             messageVo.setMessage("회원가입을 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
             e.printStackTrace();
         }
 
@@ -64,7 +65,10 @@ public class UserController {
 
     //로그인
     @PostMapping("/members/login")
+//    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
     public ResponseEntity<MessageVO> login(@RequestBody Map<String, String> user) {
+        System.out.println("members/login 메소드에 들어온 user 정보: " + user);
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("demo", "Login");
         MessageVO messageVo = new MessageVO();
@@ -87,7 +91,7 @@ public class UserController {
             else {
                 userRoles = member.getRoles();
                 messageVo.setMessage("로그인을 성공하였습니다.");
-                messageVo.setStatus(HttpStatus.OK);
+                messageVo.setStatus(HttpStatus.OK.value());
 
         //      jwtTokenProvider.createToken(member의 이름(여기서는 email), rolesList);
         //      생성된 jwt 토큰값 넣기.
@@ -97,18 +101,71 @@ public class UserController {
             }
         }catch (IllegalArgumentException e){
             messageVo.setMessage("로그인 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
             e.printStackTrace();
         }
         catch(Exception e){
             messageVo.setMessage("로그인을 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
             e.printStackTrace();
         }
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
 
+/*
+//    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
+    @PostMapping("/members/login")
+    public String login(HttpServletRequest request) {
+        String email = request.getParameter("username");
+        String password = request.getParameter("password");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("demo", "Login");
+        MessageVO messageVo = new MessageVO();
+
+        String roles = "";
+        UserVO member = null;
+        List<String> userRoles = null;
+        HashMap<String,Object> data = new HashMap<>();
+
+        try {
+            member = userMapper.findByEmail(email);
+            System.out.println("회원 정보: " + member);
+            if (member == null) {
+                throw new IllegalArgumentException();
+            }
+            else if (!passwordEncoder.matches(password, member.getPassword())) {
+
+                throw new IllegalArgumentException();
+            }
+            else {
+                userRoles = member.getRoles();
+                messageVo.setMessage("로그인을 성공하였습니다.");
+                messageVo.setStatus(HttpStatus.OK.value());
+
+                //      jwtTokenProvider.createToken(member의 이름(여기서는 email), rolesList);
+                //      생성된 jwt 토큰값 넣기.
+                data.put("jwt", jwtTokenProvider.createToken(member.getEmail(), userRoles));
+                messageVo.setData(data);
+
+            }
+        }catch (IllegalArgumentException e){
+            messageVo.setMessage("로그인 실패하였습니다.");
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
+            e.printStackTrace();
+        }
+        catch(Exception e){
+            messageVo.setMessage("로그인을 실패하였습니다.");
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
+            e.printStackTrace();
+        }
+
+        return messageVo.toString();
+
+
+    }
+
+*/
 
     @PutMapping("/members/password/{email}")
     public ResponseEntity<MessageVO> changePassword(@RequestBody Map<String, String> user, @PathVariable String email) {
@@ -123,11 +180,11 @@ public class UserController {
                 throw new Exception();
             }else {
                 messageVo.setMessage("비밀번호 변경을 성공하였습니다.");
-                messageVo.setStatus(HttpStatus.OK);
+                messageVo.setStatus(HttpStatus.OK.value());
             }
         }catch (Exception e){
             messageVo.setMessage("비밀번호 수정을 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST);
+            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
             e.printStackTrace();
         }
 

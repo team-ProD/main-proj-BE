@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 @Data
 public class MessageVO {
-  private HttpStatus status;
+  private int status;
   private String message;
   private HashMap<String,Object> data;
 
   public MessageVO() {
-    this.status = HttpStatus.BAD_REQUEST;
+    this.status = HttpStatus.BAD_REQUEST.value();
     this.data = new HashMap<String, Object>();
     this.message = null;
   }

@@ -3,6 +3,7 @@ package com.example.demo.member.service.impl;
 import com.example.demo.member.mapper.UserMapper;
 import com.example.demo.member.vo.UserVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
         System.out.println("DbInfo: " + userDbInfo);
         //String 타입의 role을 List로 만들어서 UserDetails에 담아야한다.
         userDbInfo.setRoles(Collections.singletonList(userDbInfo.getRole()));
-
+        System.out.println("userDetails: "  + userDbInfo);
         return userDbInfo;
     }
 }
