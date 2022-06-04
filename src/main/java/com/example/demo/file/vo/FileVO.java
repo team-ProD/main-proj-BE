@@ -29,7 +29,6 @@ public class FileVO {
   private String subDomain;
   private String thumbnailPath;
   private String contentType;
-`
   private Date createDate;
   private Date modifyDate;
 
