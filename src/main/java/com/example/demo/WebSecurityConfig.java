@@ -12,10 +12,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -52,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
 //                .antMatchers("/admin/**").hasRole("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/api/**").hasRole("USER")
                 .antMatchers("/**").permitAll() //그외 나머지 요청은 누구나 접근 가능
@@ -66,24 +75,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeParameter("remember-me") //token을 생성하기 위한 파라미터
                 .tokenValiditySeconds(86400 * 30) //한달 설정
                 .userDetailsService(customUserDetailService); //인증하는데 필요한 UserDetailService를 넣어줘야 한다. 없다면 만들어야 한다. 필수다!
-//                .authenticationSuccessHandler(loginSuccessHandler()) //remember-me로 로그인 성공했을때, 액션에 대해서 정의해줄 수 있는 handler
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
-                .loginPage("/members/login") //LoginController에서 로그인을 처리하는 url 경로를 써준다. (여기서 로그인 처리란, id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
-                .defaultSuccessUrl("/welcome");
-
-
+//                .defaultSuccessUrl("/welcome") //로그인 성공 시 url
+                .loginPage("/members/login") //커스텀 로그인 폼의 url 경로를 작성(권한이 필요한 페이지에 로그인이 안된 경우, 자동으로 여기에 적은 url 폼으로 이동)
+                .loginProcessingUrl("/members/login") //loginForm에서 로그인을 처리하는 action url 경로를 써준다. (여기서 로그인 처리란, Controller 에서 id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(
+                        new AuthenticationSuccessHandler() {
+                            @Override
+                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                                System.out.println("authentication : " + authentication.getName());
+                                response.sendRedirect("/welcome"); // 인증이 성공한 후에는 root로 이동
+                            }
+                        }
+                )
+                .failureHandler(
+                        new AuthenticationFailureHandler() {
+                            @Override
+                            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                                System.out.println("exception : " + exception.getMessage());
+                                response.sendRedirect("/members/login");
+                            }
+                        }
+                );
     }
 
-    //로그인 성공 시, 해당 url 로 redirect 처리해주는 handler
-    @Bean
-    public LoginSuccessHandler loginSuccessHandler () {
-        LoginSuccessHandler handler = new LoginSuccessHandler();
-        handler.setDefaultTargetUrl("/");
-
-        return handler;
-    }
 
 
 }

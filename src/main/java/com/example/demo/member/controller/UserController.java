@@ -41,7 +41,7 @@ public class UserController {
             int result = useService.saveUser(UserVO.builder()
                     .email(user.get("email"))
                     .password(passwordEncoder.encode(user.get("password")))
-                    .roles(Collections.singletonList("ROLE_ADMIN"))
+                    .roles(Collections.singletonList("ROLE_USER"))
                     .name(user.get("name"))
                     .privacyAgree(Integer.parseInt(user.get("privacy_agree")))
                     .remoteLoginAgree(Integer.parseInt(user.get("remote_login_agree")))
@@ -114,57 +114,57 @@ public class UserController {
     }
 
 /*
+
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
-    @PostMapping("/members/login")
-    public String login(HttpServletRequest request) {
-        String email = request.getParameter("username");
-        String password = request.getParameter("password");
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("demo", "Login");
-        MessageVO messageVo = new MessageVO();
+        @PostMapping("/member/login")
+        public String login(HttpServletRequest request) {
+            System.out.println("##################################################################");
+            System.out.println("여기는 /members/login 입니다.");
+            System.out.println("##################################################################");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("demo", "Login");
+            MessageVO messageVo = new MessageVO();
 
-        String roles = "";
-        UserVO member = null;
-        List<String> userRoles = null;
-        HashMap<String,Object> data = new HashMap<>();
+            String roles = "";
+            UserVO member = null;
+            List<String> userRoles = null;
+            HashMap<String, Object> data = new HashMap<>();
 
-        try {
-            member = userMapper.findByEmail(email);
-            System.out.println("회원 정보: " + member);
-            if (member == null) {
-                throw new IllegalArgumentException();
+            try {
+                member = userMapper.findByEmail(email);
+                System.out.println("회원 정보: " + member);
+                if (member == null) {
+                    throw new IllegalArgumentException();
+                } else if (!passwordEncoder.matches(password, member.getPassword())) {
+
+                    throw new IllegalArgumentException();
+                } else {
+                    userRoles = member.getRoles();
+                    messageVo.setMessage("로그인을 성공하였습니다.");
+                    messageVo.setStatus(HttpStatus.OK.value());
+
+                    //      jwtTokenProvider.createToken(member의 이름(여기서는 email), rolesList);
+                    //      생성된 jwt 토큰값 넣기.
+                    data.put("jwt", jwtTokenProvider.createToken(member.getEmail(), userRoles));
+                    messageVo.setData(data);
+
+                }
+            } catch (IllegalArgumentException e) {
+                messageVo.setMessage("로그인 실패하였습니다.");
+                messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
+                e.printStackTrace();
+            } catch (Exception e) {
+                messageVo.setMessage("로그인을 실패하였습니다.");
+                messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
+                e.printStackTrace();
             }
-            else if (!passwordEncoder.matches(password, member.getPassword())) {
 
-                throw new IllegalArgumentException();
-            }
-            else {
-                userRoles = member.getRoles();
-                messageVo.setMessage("로그인을 성공하였습니다.");
-                messageVo.setStatus(HttpStatus.OK.value());
+            return messageVo.toString();
 
-                //      jwtTokenProvider.createToken(member의 이름(여기서는 email), rolesList);
-                //      생성된 jwt 토큰값 넣기.
-                data.put("jwt", jwtTokenProvider.createToken(member.getEmail(), userRoles));
-                messageVo.setData(data);
 
-            }
-        }catch (IllegalArgumentException e){
-            messageVo.setMessage("로그인 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
-            e.printStackTrace();
         }
-        catch(Exception e){
-            messageVo.setMessage("로그인을 실패하였습니다.");
-            messageVo.setStatus(HttpStatus.BAD_REQUEST.value());
-            e.printStackTrace();
-        }
-
-        return messageVo.toString();
-
-
-    }
-
 */
 
     @PutMapping("/members/password/{email}")
@@ -192,8 +192,8 @@ public class UserController {
     }
 
     //권한 확인
-    @PostMapping("/admin/myPage")
-    @PreAuthorize("hasAnyRole('ADMIN')") //해당 메서드가 호출되기 이전에 권한을 검사한다. 현재 사용자의 권한이 파라미터의 권한 중 일치하는 것이 있는 경우 true 를 리턴
+    @GetMapping("/api/mypage")
+    @PreAuthorize("hasAnyRole('USER')") //해당 메서드가 호출되기 이전에 권한을 검사한다. 현재 사용자의 권한이 파라미터의 권한 중 일치하는 것이 있는 경우 true 를 리턴
     public String myPage() {
         return "권한이 필요한 페이지 요청 받음";
 
