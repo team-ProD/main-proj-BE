@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.file.mapper.FileMapper">
+
+
+  <!-- 이렇게 주석달아주세요 위에 -->
+  <insert id="upload"  parameterType="FileVO">
+    INSERT INTO PROD_MAIN.file
+    (file_path, uuid, ori_name, ext, modify_date, file_size, create_user, `domain`, sub_domain, f_id, thumbnail_path)
+    VALUES(
+            #{filePath},
+            #{uuid},
+            #{oriName},
+            #{ext},
+            now(),
+            #{fileSize},
+            #{createUser},
+            #{domain},
+            #{subDomain},
+            #{fId},
+            #{thumbnailPath}
+          )
+  </insert>
+
+  <!-- 이렇게 주석달아주세요 위에 -->
+  <select id="findById"  resultType="FileVO">
+    SELECT id,
+           file_path filePath,
+           uuid,
+           ori_name oriName,
+           ext,
+           create_date createDate,
+           modify_date modifyDate,
+           file_size fileSize,
+           create_user createUser,
+           modify_user modifyUser,
+           domain,
+           sub_domain subDomain,
+           f_id fId,
+           thumbnail_path thumbnailPath
+    FROM PROD_MAIN.file
+    WHERE id = #{id}
+  </select>
+
+</mapper>

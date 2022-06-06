@@ -1,5 +1,6 @@
 package com.example.demo.member.vo;
 
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -8,9 +9,13 @@ import lombok.Data;
  */
 @Data
 public class ProfileVO {
-  private String id;
-  private String name;
-  private String filePath;
-  private String imgPath;
+
+  private int id;
+  private int memberId;
+  private String nickname;
+  private String position;
+  private int positionLevel;
+  private Date createDate;
+  private Date modifyDate;
 
 }

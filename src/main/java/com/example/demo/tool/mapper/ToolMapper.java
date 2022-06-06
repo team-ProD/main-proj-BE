@@ -1,6 +1,6 @@
 package com.example.demo.tool.mapper;
 
-import com.example.demo.member.vo.ToolVO;
+import com.example.demo.tool.vo.ToolVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 

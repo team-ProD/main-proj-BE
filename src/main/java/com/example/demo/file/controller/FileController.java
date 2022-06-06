@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,26 +44,22 @@ public class FileController {
   @Autowired
   FIleServiceImpl fileService;
 
-
+  @Value("${spring.servlet.multipart.location}")
+  String tmpPath;
 
   @PostMapping("/upload")
-  public ResponseEntity<Message> saveFile(@RequestParam String itemName, @RequestParam MultipartFile[] file) throws IOException {
+  public ResponseEntity<Message> saveFile(@RequestParam MultipartFile[] file) throws IOException {
     Message message = new Message();
     HttpHeaders headers= new HttpHeaders();
     headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
     HttpStatus status = HttpStatus.OK;
 
     try {
-      for (MultipartFile multipartFile : file) {
-        FileVO vo = new FileVO(UUID.randomUUID().toString(),multipartFile.getOriginalFilename(),multipartFile.getContentType());
-        int uploadCnt = fileService.upload(vo);
-        File newFileName = new File(vo.getUuid() + "_" + vo.getUuid());
-        multipartFile.transferTo(newFileName);
-      }
+      // 플젝저장 쿼리 서비스
+        List<FileVO> uploadList = fileService.upload(file);
       message.setStatus(200);
       message.setMessage("업로드 성공");
-     // message.getData().put("toolList",list); // 조회시 보낼 데이터 이렇게 넣어주세요
-      // message.setData(); 데이터 넣을게 없음..
+      message.getData().put("uploadList",uploadList); // 조회시 보낼 데이터 이렇게 넣어주세요
     } catch (Exception e) {
       System.out.println(e.getMessage());
       message.setStatus(500);
@@ -72,6 +69,7 @@ public class FileController {
     return new ResponseEntity<>(message, headers, status);
   }
 
+  // 이미지는 그냥 따로 필요한지 모르겠는데 써놓기만함. 그냥 예시임.
   @GetMapping("/images/{filename}")
   public Resource showImage(@PathVariable String filename) throws
       MalformedURLException {
@@ -90,9 +88,8 @@ public class FileController {
   public ResponseEntity<Resource> downloadAttach(HttpServletResponse res, @PathVariable Long itemId) throws MalformedURLException {
     //...itemId 이용해서 고객이 업로드한 파일 이름인 uploadFileName랑 서버 내부에서 사용하는 파일 이름인 storeFileName을 얻는다는 내용은 생략
     FileVO file = fileService.findById(itemId);
-    String storedFileName = file.getFilePath() + file.getUuid();
+    String storedFileName = tmpPath + file.getFilePath() + file.getUuid()+"_"+file.getOriName();
     String uploadFileName = file.getOriName();
-
     //파일 경로
     Path saveFilePath = Paths.get(storedFileName);
 
@@ -100,26 +97,6 @@ public class FileController {
     if(!saveFilePath.toFile().exists()) {
       throw new RuntimeException("file not found");
     }
-
- //   FileInputStream fis = null;
-
-//    try {
-//      fis = new FileInputStream(saveFilePath.toFile());
-//      FileCopyUtils.copy(fis, res.getOutputStream());
-//      res.getOutputStream().flush();
-//    }
-//    catch (Exception e) {
-//      throw new RuntimeException(e);
-//    }
-//    finally {
-//      try {
-//        fis.close();
-//      }
-//      catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//
-//    }
 
     UrlResource resource = new UrlResource("file:" + saveFilePath);
 

@@ -1,6 +1,7 @@
 package com.example.demo.file.vo;
 
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class FileVO {
 
   private int id;
@@ -22,7 +24,7 @@ public class FileVO {
   private String ext;
 
 
-  private String fileSize;
+  private long fileSize;
   private String createUser;
   private String modifyUser;
   private String domain;
@@ -35,9 +37,13 @@ public class FileVO {
 
 
 
-  public FileVO(String uuid, String oriName, String contentType) {
+  public FileVO(String uuid, String oriName, String contentType, String filePath, long fileSize, String thumbnailPath ) {
     this.uuid = uuid;
     this.oriName = oriName;
     this.contentType = contentType;
+    String ext = oriName.substring(oriName.lastIndexOf(".") + 1);
+    this.ext = ext;
+    this.fileSize = fileSize;
+    this.filePath = filePath;
   }
 }

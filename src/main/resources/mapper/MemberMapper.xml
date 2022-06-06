@@ -5,17 +5,6 @@
 <mapper namespace="com.example.demo.member.mapper.MemberMapper">
 
 
-  <!-- 이렇게 주석달아주세요 위에 -->
-  <select id="getToolList"  resultType="ToolVO">
-    SELECT
-        id, name
-    FROM TOOL
-      <if test="srchStr != null and !''.equals(srchStr)">
-        WHERE
-        name = #{srchStr, jdbcType=VARCHAR}
-      </if>
-  </select>
-
 
 
 </mapper>
