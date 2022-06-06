@@ -1,6 +1,6 @@
 package com.example.demo.project.controller;
 
-import com.example.demo.common.Message;
+import com.example.demo.common.vo.Message;
 import com.example.demo.project.service.ProjectService;
 import com.example.demo.project.service.impl.ProjectServiceImpl;
 import com.example.demo.project.vo.ProjectVO;
@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 @RestController
 public class ProjectController {
@@ -33,8 +35,12 @@ public class ProjectController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
+        System.out.println(":::===============================================");
+        System.out.println(":::projectVO : "+projectVO);
+//        System.out.println(":::files : "+files);
+
         try {
-            projectService.createProject(projectVO);
+//            projectService.createProject(projectVO, files);
             message.setStatus(HttpStatus.OK.value());
             message.setMessage("프로젝트 생성이 완료되었습니다.");
         } catch (Exception e) {

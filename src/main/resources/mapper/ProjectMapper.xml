@@ -53,7 +53,7 @@
         , STATUS
         , INVITE_DATE)
         VALUES ( #{profileId}
-               , #{id}
+               , #{id}y
                , 'Y'
                , NOW())
     </insert>

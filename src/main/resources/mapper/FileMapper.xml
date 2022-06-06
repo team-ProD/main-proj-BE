@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.file.mapper.FileMapper">
+
+    <insert id="upload" parameterType="FileVO">
+        INSERT INTO FILE
+        ( file_path
+        , uuid
+        , ori_name
+        , ext
+        , create_date
+        , modify_date
+        , file_size
+        , create_user
+        , domain
+        , sub_domain
+        , f_id
+        , thumbname_path)
+        VALUES ( #{filePath}
+               , #{uuid}
+               , #{oriName}
+               , #{external}
+               , now()
+               , now()
+               , #{fileSize}
+               , #{domain}
+               , #{sub_domain}
+               , #{fId}
+               , #{thumbnailPath})
+
+    </insert>
+</mapper>
