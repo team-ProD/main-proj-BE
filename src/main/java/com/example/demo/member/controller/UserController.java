@@ -64,7 +64,7 @@ public class UserController {
     }
 
     //로그인
-    @PostMapping("/members/login")
+    @PostMapping("/member/login")
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
     public ResponseEntity<MessageVO> login(@RequestBody Map<String, String> user) {
         System.out.println("members/login 메소드에 들어온 user 정보: " + user);

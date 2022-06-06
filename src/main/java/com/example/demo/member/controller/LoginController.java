@@ -27,7 +27,7 @@ public class LoginController {
     private final UserMapper userMapper;
     private final UserServiceImpl useService;
 
-    @GetMapping("/members/login")
+    @GetMapping("/login")
     public String login(){
         return "loginPage";
     }

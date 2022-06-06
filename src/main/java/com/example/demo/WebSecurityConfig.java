@@ -78,8 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
-//                .defaultSuccessUrl("/welcome") //로그인 성공 시 url
-                .loginPage("/members/login") //커스텀 로그인 폼의 url 경로를 작성(권한이 필요한 페이지에 로그인이 안된 경우, 자동으로 여기에 적은 url 폼으로 이동)
+                .defaultSuccessUrl("/welcome") //로그인 성공 시 url
+                .loginPage("/login") //커스텀 로그인 폼의 url 경로를 작성(권한이 필요한 페이지에 로그인이 안된 경우, 자동으로 여기에 적은 url 폼으로 이동)
                 .loginProcessingUrl("/members/login") //loginForm에서 로그인을 처리하는 action url 경로를 써준다. (여기서 로그인 처리란, Controller 에서 id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
                 .usernameParameter("email")
                 .passwordParameter("password")
