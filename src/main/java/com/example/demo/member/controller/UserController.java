@@ -62,7 +62,7 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
-/*
+
     //로그인
     @PostMapping("/members/login")
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
@@ -112,11 +112,11 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
-*/
 
 
-//    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
-        @PostMapping("/members/login")
+/*
+    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
+        @PostMapping("/member/login")
         public String login(HttpServletRequest request) {
             System.out.println("##################################################################");
             System.out.println("여기는 /members/login 입니다.");
@@ -165,7 +165,7 @@ public class UserController {
 
 
         }
-
+*/
 
     @PutMapping("/members/password/{email}")
     public ResponseEntity<MessageVO> changePassword(@RequestBody Map<String, String> user, @PathVariable String email) {
