@@ -62,12 +62,12 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
-
+/*
     //로그인
-    @PostMapping("/member/login")
+    @PostMapping("/members/login")
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
     public ResponseEntity<MessageVO> login(@RequestBody Map<String, String> user) {
-        System.out.println("members/login 메소드에 들어온 user 정보: " + user);
+        System.out.println("/members/login 메소드에 들어온 user 정보: " + user);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("demo", "Login");
@@ -112,11 +112,11 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
+*/
 
-/*
 
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
-        @PostMapping("/member/login")
+        @PostMapping("/members/login")
         public String login(HttpServletRequest request) {
             System.out.println("##################################################################");
             System.out.println("여기는 /members/login 입니다.");
@@ -165,7 +165,7 @@ public class UserController {
 
 
         }
-*/
+
 
     @PutMapping("/members/password/{email}")
     public ResponseEntity<MessageVO> changePassword(@RequestBody Map<String, String> user, @PathVariable String email) {
@@ -194,7 +194,7 @@ public class UserController {
     //권한 확인
     @GetMapping("/api/mypage")
     @PreAuthorize("hasAnyRole('USER')") //해당 메서드가 호출되기 이전에 권한을 검사한다. 현재 사용자의 권한이 파라미터의 권한 중 일치하는 것이 있는 경우 true 를 리턴
-    public String myPage() {
+    public String mypage() {
         return "권한이 필요한 페이지 요청 받음";
 
     }

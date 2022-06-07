@@ -42,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
     // authenticationManager 를 Bean 등록합니다.
     @Bean
     @Override
@@ -56,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().disable() //rest api 만을 고려하여 기본 설정은 해제합니다.
                 .csrf().disable() //csrf 보안 토큰 disable 처리
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //토큰 기반 인증이되므로 세션 역시 사용되지 않습니다.
-                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //토큰 기반 인증이되므로 세션 역시 사용되지 않습니다.
+//                .and()
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
 //                .antMatchers("/admin/**").hasRole("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
@@ -68,13 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
-
-        //remeber-me : 자동로그인 기능 설정
-        http.rememberMe()
-                .key("uniqueAndSecret") //인증받은 사용자의 정보로 token을 생성하는데 사용되는 key값을 설정한다.(임의 값 설정)
-                .rememberMeParameter("remember-me") //token을 생성하기 위한 파라미터
-                .tokenValiditySeconds(86400 * 30) //한달 설정
-                .userDetailsService(customUserDetailService); //인증하는데 필요한 UserDetailService를 넣어줘야 한다. 없다면 만들어야 한다. 필수다!
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
@@ -97,10 +89,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             @Override
                             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                                 System.out.println("exception : " + exception.getMessage());
-                                response.sendRedirect("/members/login");
+                                response.sendRedirect("/login");
                             }
                         }
                 );
+
+        //remeber-me : 자동로그인 기능 설정
+        http.rememberMe()
+                .key("uniqueAndSecret") //인증받은 사용자의 정보로 token을 생성하는데 사용되는 key값을 설정한다.(임의 값 설정)
+                .rememberMeParameter("remember-me") //token을 생성하기 위한 파라미터
+                .tokenValiditySeconds(86400 * 30) //한달 설정
+                .userDetailsService(customUserDetailService);
+        //인증하는데 필요한 UserDetailService를 넣어줘야 한다. 없다면 만들어야 한다. 필수다!
+
+        http.logout()
+                .deleteCookies("JSESSIONID");
+
+
+
     }
 
 

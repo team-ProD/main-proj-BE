@@ -32,4 +32,9 @@ public class LoginController {
         return "loginPage";
     }
 
+    @GetMapping("/login?logout")
+    public String logout(){
+        return "/";
+    }
+
 }
