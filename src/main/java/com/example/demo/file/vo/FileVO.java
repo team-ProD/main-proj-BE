@@ -45,5 +45,6 @@ public class FileVO {
     this.ext = ext;
     this.fileSize = fileSize;
     this.filePath = filePath;
+    this.thumbnailPath = thumbnailPath;
   }
 }

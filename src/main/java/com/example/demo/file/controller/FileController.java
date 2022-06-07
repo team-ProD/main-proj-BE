@@ -26,8 +26,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,6 +86,7 @@ public class FileController {
     return new UrlResource("file:" + saveFilePath);
   }
 
+
   @GetMapping("/attach/{itemId}")
   public ResponseEntity<Resource> downloadAttach(HttpServletResponse res, @PathVariable Long itemId) throws MalformedURLException {
     //...itemId 이용해서 고객이 업로드한 파일 이름인 uploadFileName랑 서버 내부에서 사용하는 파일 이름인 storeFileName을 얻는다는 내용은 생략
@@ -111,5 +114,14 @@ public class FileController {
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
         .body(resource);
+  }
+
+  @PostMapping("/test")
+  public String test(FileVO fileVO, MultipartFile file) {
+
+    System.out.println(fileVO.toString());
+    System.out.println(file.getOriginalFilename());
+
+    return "따봉!";
   }
 }
