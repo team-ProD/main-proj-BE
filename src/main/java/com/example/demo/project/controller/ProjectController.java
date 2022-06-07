@@ -30,7 +30,7 @@ public class ProjectController {
      * @throws JSONException
      */
     @PostMapping(value = "/project")
-    public ResponseEntity<Message> projectCreate(@RequestBody ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> projectCreate(ProjectVO projectVO) throws JSONException {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
