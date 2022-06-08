@@ -1,0 +1,21 @@
+---
+name: Document Request
+about: 문서 추가/수정 관련 템플릿
+title: '문서를 추가/수정한다.'
+labels: ':memo:documentation'
+assignees: ''
+---
+
+## 목적
+- 내용을 적어주세요.
+
+## 작업내용
+- [ ] todo
+- [ ] todo
+- [ ] todo
+
+## 주의사항
+- 내용을 적어주세요.
+
+
+
