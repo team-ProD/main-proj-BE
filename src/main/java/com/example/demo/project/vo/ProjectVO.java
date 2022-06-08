@@ -1,6 +1,7 @@
 package com.example.demo.project.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 

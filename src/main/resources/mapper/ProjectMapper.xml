@@ -11,18 +11,12 @@
         , LOGO_PATH
         , SUMMARY
         , ATTENDANT_NUMBER
-        , START_DATE
-        , END_DATE
-        , CREATE_DATE
-        , MODIFY_DATE)
+        , CREATE_DATE)
         VALUES ( #{name}
                , #{logoName}
                , #{logoPath}
                , #{summary}
                , #{attendantNumber}
-               , #{startDate}
-               , #{endDate}
-               , NOW()
                , NOW())
     </insert>
 

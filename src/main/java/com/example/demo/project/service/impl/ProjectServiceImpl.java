@@ -46,17 +46,14 @@ public class ProjectServiceImpl implements ProjectService {
             for (MultipartFile multipartFile : files) {
                 FileVO vo = new FileVO(UUID.randomUUID().toString(), multipartFile.getOriginalFilename(), multipartFile.getContentType());
                 vo.setExt(multipartFile.getName().substring(multipartFile.getName().lastIndexOf(".")+1));
-                //int uploadCnt = fileService.upload(vo);
-                System.out.println("===============================================");
-                System.out.println("vo : "+vo);
-                System.out.println("projectVO : "+projectVO);
+                int uploadCnt = fileService.upload(vo);
                 File newFileName = new File(vo.getUuid() + "_" + vo.getUuid());
                 multipartFile.transferTo(newFileName);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //projectMapper.createProject(projectVO);
+        projectMapper.createProject(projectVO);
     }
 
     /**

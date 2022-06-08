@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
@@ -30,17 +31,13 @@ public class ProjectController {
      * @throws JSONException
      */
     @PostMapping(value = "/project")
-    public ResponseEntity<Message> projectCreate(ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> projectCreate(ProjectVO projectVO, @RequestPart("files") List<MultipartFile> files) throws JSONException {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        System.out.println(":::===============================================");
-        System.out.println(":::projectVO : "+projectVO);
-//        System.out.println(":::files : "+files);
-
         try {
-//            projectService.createProject(projectVO, files);
+            projectService.createProject(projectVO, files);
             message.setStatus(HttpStatus.OK.value());
             message.setMessage("프로젝트 생성이 완료되었습니다.");
         } catch (Exception e) {
