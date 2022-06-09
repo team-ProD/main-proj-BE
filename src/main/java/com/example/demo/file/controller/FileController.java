@@ -58,7 +58,7 @@ public class FileController {
 
     try {
       // 플젝저장 쿼리 서비스
-        List<FileVO> uploadList = fileService.upload(file);
+      List<FileVO> uploadList = fileService.upload(file);
       message.setStatus(200);
       message.setMessage("업로드 성공");
       message.getData().put("uploadList",uploadList); // 조회시 보낼 데이터 이렇게 넣어주세요
