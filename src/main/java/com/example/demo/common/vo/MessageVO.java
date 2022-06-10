@@ -1,4 +1,4 @@
-package com.example.demo.member.vo;
+package com.example.demo.common.vo;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

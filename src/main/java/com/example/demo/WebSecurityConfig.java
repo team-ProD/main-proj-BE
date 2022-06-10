@@ -1,8 +1,8 @@
 package com.example.demo;
 
 
-import com.example.demo.member.jwt.JwtAuthenticationFilter;
-import com.example.demo.member.jwt.JwtTokenProvider;
+import com.example.demo.security.jwt.JwtAuthenticationFilter;
+import com.example.demo.security.jwt.JwtTokenProvider;
 import com.example.demo.member.service.impl.CustomUserDetailService;
 import com.example.demo.member.vo.UserVO;
 import java.util.List;
@@ -17,8 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
