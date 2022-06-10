@@ -19,13 +19,13 @@
     <!--member 조회 -->
     <select id="findByEmail" parameterType="String" resultMap="MemberVOResultMap">
         SELECT *
-        FROM member
+        FROM MEMBER
         WHERE email = #{email}
     </select>
 
     <!--member 등록 -->
     <insert id="save" parameterType="userVO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO member(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE , CREATE_DATE, MODIFY_DATE)
+        INSERT INTO MEMBER(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE , CREATE_DATE, MODIFY_DATE)
         VALUES(#{email}, #{password}, #{name}, #{role}, #{privacyAgree}, #{remoteLoginAgree}, now(), now());
 
         <!--사용자 기록 등록 확인하기 위한 select 문 -->
@@ -36,7 +36,7 @@
     </insert>
 
     <update id="chgPass" parameterType="Map">
-        UPDATE member
+        UPDATE MEMBER
         SET PASSWORD = #{chgPassword}
         WHERE email = #{email}
 

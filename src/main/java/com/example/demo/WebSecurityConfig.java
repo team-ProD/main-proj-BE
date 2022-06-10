@@ -4,6 +4,9 @@ package com.example.demo;
 import com.example.demo.member.jwt.JwtAuthenticationFilter;
 import com.example.demo.member.jwt.JwtTokenProvider;
 import com.example.demo.member.service.impl.CustomUserDetailService;
+import com.example.demo.member.vo.UserVO;
+import java.util.List;
+import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,24 +64,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/api/**").hasRole("USER")
-                .antMatchers("/**").permitAll() //그외 나머지 요청은 누구나 접근 가능
+                .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
-                .defaultSuccessUrl("/welcome") //로그인 성공 시 url
                 .loginPage("/login") //커스텀 로그인 폼의 url 경로를 작성(권한이 필요한 페이지에 로그인이 안된 경우, 자동으로 여기에 적은 url 폼으로 이동)
                 .loginProcessingUrl("/members/login") //loginForm에서 로그인을 처리하는 action url 경로를 써준다. (여기서 로그인 처리란, Controller 에서 id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
                 .usernameParameter("email")
                 .passwordParameter("password")
+                .defaultSuccessUrl("/welcome") //로그인 성공 시 url
                 .successHandler(
                         new AuthenticationSuccessHandler() {
                             @Override
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                                 System.out.println("authentication : " + authentication.getName());
-                                response.sendRedirect("/welcome"); // 인증이 성공한 후에는 root로 이동
+                              final String user = ((UserVO) authentication.getPrincipal()).getEmail();
+                              final List<String> roles = ((UserVO) authentication.getPrincipal()).getRoles();
+                              final String token = jwtTokenProvider.createToken(user,roles);
+                              Cookie cookie = new Cookie("jwt",token);
+                              cookie.setPath("/");
+                              response.addHeader("Authorization", "BEARER"+ " " + token);
+                              response.addCookie(cookie);
+                              response.sendRedirect("/welcome");
                             }
                         }
                 )
