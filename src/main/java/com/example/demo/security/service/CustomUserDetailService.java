@@ -1,16 +1,14 @@
-package com.example.demo.member.service.impl;
+package com.example.demo.security.service;
 
-import com.example.demo.member.mapper.UserMapper;
-import com.example.demo.member.vo.UserVO;
+import com.example.demo.security.mapper.UserMapper;
+import com.example.demo.security.vo.UserVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashMap;
 
 @RequiredArgsConstructor
 @Service

@@ -1,5 +1,6 @@
-package com.example.demo.member.vo;
+package com.example.demo.security.vo;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,12 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class UserVO implements UserDetails {
+public class UserVO implements UserDetails, OAuth2User {
 
     private int id;
     private String email;
@@ -30,6 +32,16 @@ public class UserVO implements UserDetails {
     private int remoteLoginAgree;
     private String createDate;
     private String modifyDate;
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return OAuth2User.super.getAttribute(name);
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
