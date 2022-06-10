@@ -1,4 +1,4 @@
-package com.example.demo.member.jwt;
+package com.example.demo.SpringSecurity.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -40,4 +40,5 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         }
         chain.doFilter(request, response);
     }
+
 }

@@ -2,7 +2,7 @@ package com.example.demo.member.controller;
 
 
 import com.example.demo.common.vo.Message;
-import com.example.demo.member.jwt.JwtTokenProvider;
+import com.example.demo.SpringSecurity.jwt.JwtTokenProvider;
 import com.example.demo.member.mapper.UserMapper;
 import com.example.demo.member.service.impl.UserServiceImpl;
 import com.example.demo.member.vo.MessageVO;
@@ -31,7 +31,7 @@ public class UserController {
     private final UserServiceImpl useService;
 
     // 회원가입
-    @PostMapping("/members/join")
+    @RequestMapping("/members/join")
     public ResponseEntity<Message> join(@RequestBody Map<String, String> user){
         HttpHeaders headers = new HttpHeaders();
         headers.set("demo", "Join");
@@ -62,11 +62,11 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
-
+/*
     //로그인
     @PostMapping("/members/login")
 //    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
-    public ResponseEntity<MessageVO> login(@RequestBody Map<String, String> user) {
+    public ResponseEntity<MessageVO> login(Map<String, String> user) {
         System.out.println("/members/login 메소드에 들어온 user 정보: " + user);
 
         HttpHeaders headers = new HttpHeaders();
@@ -112,15 +112,17 @@ public class UserController {
 
         return ResponseEntity.status(messageVo.getStatus()).headers(headers).body(messageVo);
     }
+*/
 
 
-/*
-    @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
-        @PostMapping("/member/login")
+//        @RequestMapping(value="/members/login", method=RequestMethod.POST, headers={"Content-type=application/json"})
+        @PostMapping("/members/login")
         public String login(HttpServletRequest request) {
             System.out.println("##################################################################");
             System.out.println("여기는 /members/login 입니다.");
+            System.out.println("넘어온 파라미터 값: " + request.getParameter("email"));
             System.out.println("##################################################################");
+
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             HttpHeaders headers = new HttpHeaders();
@@ -163,9 +165,8 @@ public class UserController {
 
             return messageVo.toString();
 
-
         }
-*/
+
 
     @PutMapping("/members/password/{email}")
     public ResponseEntity<MessageVO> changePassword(@RequestBody Map<String, String> user, @PathVariable String email) {

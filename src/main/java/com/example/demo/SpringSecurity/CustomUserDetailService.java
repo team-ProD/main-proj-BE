@@ -1,4 +1,4 @@
-package com.example.demo.member.service.impl;
+package com.example.demo.SpringSecurity;
 
 import com.example.demo.member.mapper.UserMapper;
 import com.example.demo.member.vo.UserVO;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-
     private final UserMapper userMapper;
 
     //JwtTokenProvider 클래스 파일에서 username에 따른 UserDetails 즉, User 객체를 DB에서 반환받기 원함
@@ -28,4 +27,5 @@ public class CustomUserDetailService implements UserDetailsService {
         System.out.println("UserDetailsService 에서 가져온 UserDetail: "  + userDbInfo);
         return userDbInfo;
     }
+
 }

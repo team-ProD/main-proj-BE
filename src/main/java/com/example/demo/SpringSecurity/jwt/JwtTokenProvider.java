@@ -1,4 +1,4 @@
-package com.example.demo.member.jwt;
+package com.example.demo.SpringSecurity.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
