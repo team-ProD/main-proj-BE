@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 @Data
 public class Message {
-
     private int status;
     private String message;
     private HashMap<String, Object> data;
