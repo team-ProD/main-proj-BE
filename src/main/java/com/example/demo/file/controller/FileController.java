@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +44,7 @@ import org.springframework.web.util.UriUtils;
  * https://github.com/hs95blue
  */
 @RestController
+@RequestMapping("/api")
 public class FileController {
 
   @Autowired
@@ -71,12 +75,14 @@ public class FileController {
     return new ResponseEntity<>(message, headers, status);
   }
 
-  // 이미지
+  // 이미지 display
   @GetMapping("/images/{uuid}")
-  public Resource showImage(@PathVariable String uuid) throws
-      MalformedURLException {
+  public ResponseEntity<Resource> showImage(@PathVariable String uuid, HttpServletResponse response) throws
+      MalformedURLException,IOException {
     FileVO imageInfo = fileService.findById(uuid);
     String storedFileName = tmpPath + imageInfo.getFilePath() + imageInfo.getUuid() + "_" + imageInfo.getOriName();
+    HttpHeaders header = new HttpHeaders();
+    Resource resource = new FileSystemResource(storedFileName);
     //파일 경로
     Path saveFilePath = Paths.get(storedFileName);
 
@@ -84,23 +90,33 @@ public class FileController {
     if(!saveFilePath.toFile().exists()) {
       throw new RuntimeException("file not found");
     }
-    return new UrlResource("file:" + saveFilePath);
+
+    header.add("Content-type", Files.probeContentType(saveFilePath));
+
+
+    return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
   }
 
   // 썸네일
   @GetMapping("/images/thumbnail/{uuid}")
-  public Resource showThumbnailImage(@PathVariable String uuid) throws
-      MalformedURLException {
+  public ResponseEntity<Resource> showThumbnailImage(@PathVariable String uuid) throws
+      MalformedURLException, IOException {
     FileVO imageInfo = fileService.findById(uuid);
     String storedFileName = tmpPath + imageInfo.getThumbnailPath() + "s_" + imageInfo.getUuid() + "_" + imageInfo.getOriName();
     //파일 경로
     Path saveFilePath = Paths.get(storedFileName);
 
+    HttpHeaders header = new HttpHeaders();
+    Resource resource = new FileSystemResource(storedFileName);
+
     //해당 경로에 파일이 없으면
     if(!saveFilePath.toFile().exists()) {
       throw new RuntimeException("file not found");
     }
-    return new UrlResource("file:" + saveFilePath);
+    header.add("Content-type", Files.probeContentType(saveFilePath));
+
+
+    return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
   }
 
   @GetMapping("/attach/{uuid}")

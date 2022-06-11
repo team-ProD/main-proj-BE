@@ -69,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/api/**").hasRole("USER")
+                .antMatchers("/api/images/**").permitAll()
                 .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
@@ -111,9 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http
             .oauth2Login().userInfoEndpoint()
             .userService(customOAuth2MemberService)
-            .and()
-            .authorizationEndpoint()
-            .baseUri("/oauth2/authorize")
+            // authorizeEndpoint는 oauth로직을 시작하게 하는건데, 요청단을 직접 짜줘야함. 안짜고 uri만 지정해주니 404가 뜨는거였음!
             .and()
             .loginPage("/login")
 
@@ -129,6 +128,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     cookie.setPath("/");
                     response.addHeader("Authorization", "BEARER"+ " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
                     response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
+                    response.sendRedirect("/welcome");
+
                   }
                 }
             )

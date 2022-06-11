@@ -41,7 +41,7 @@
            f_id fId,
            thumbnail_path thumbnailPath
     FROM PROD_MAIN.file
-    WHERE id = #{id}
+    WHERE uuid = #{uuid}
   </select>
 
   <select id="getFileList" resultType="com.example.demo.file.vo.FileVO">
