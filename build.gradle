@@ -36,6 +36,7 @@ dependencies {
     // MyBatis 라이브러리 의존성 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
 
     //Spring-Security
     testImplementation 'org.springframework.security:spring-security-test'

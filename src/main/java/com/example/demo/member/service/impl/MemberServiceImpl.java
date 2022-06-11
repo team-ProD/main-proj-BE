@@ -1,6 +1,17 @@
 package com.example.demo.member.service.impl;
 
 import com.example.demo.member.mapper.MemberMapper;
+
+import com.example.demo.member.service.MemberService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+
+
+
 import com.example.demo.security.mapper.UserMapper;
 import com.example.demo.member.service.MemberService;
 import com.example.demo.member.vo.MemberVO;
@@ -33,4 +44,5 @@ public class MemberServiceImpl implements MemberService {
   public int chgPassword(MemberVO memberVO){
     return memberMapper.chgPass(memberVO);
   }
+
 }

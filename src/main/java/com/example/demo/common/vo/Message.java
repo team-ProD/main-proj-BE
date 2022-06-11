@@ -7,13 +7,14 @@ import java.util.HashMap;
 
 @Data
 public class Message {
-  private int status;
-  private String message;
-  private HashMap<String,Object> data;
+    private int status;
+    private String message;
+    private HashMap<String, Object> data;
 
-  public Message() {
-    this.status = HttpStatus.BAD_REQUEST.value();
-    this.data = new HashMap<String, Object>();
-    this.message = null;
-  }
+    public Message() {
+        this.status = HttpStatus.BAD_REQUEST.value();
+        this.data = new HashMap<String, Object>();
+        this.message = null;
+    }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Data
 public class MemberVO {
 
+
   private int id;
   private String email;
   private String password;
@@ -34,5 +35,6 @@ public class MemberVO {
         .collect(Collectors.toList());
 //        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
   }
+
 
 }

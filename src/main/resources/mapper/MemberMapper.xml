@@ -6,6 +6,12 @@
 
 <mapper namespace="com.example.demo.member.mapper.MemberMapper">
 
+
+
+
+
+<mapper namespace="com.example.demo.member.mapper.MemberMapper">
+
   <!--member 등록 -->
   <insert id="save" parameterType="com.example.demo.member.vo.MemberVO" >
     INSERT INTO MEMBER(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE , CREATE_DATE, MODIFY_DATE)
@@ -27,5 +33,6 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
   </update>
+
 
 </mapper>
