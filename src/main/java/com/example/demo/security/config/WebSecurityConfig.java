@@ -109,10 +109,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
             http
-            .oauth2Login().userInfoEndpoint().userService(customOAuth2MemberService)
+            .oauth2Login().userInfoEndpoint()
+            .userService(customOAuth2MemberService)
+            .and()
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorize")
             .and()
             .loginPage("/login")
-            .successHandler(
+
+                .successHandler(
                 new AuthenticationSuccessHandler() {
                   @Override
                   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -124,7 +129,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     cookie.setPath("/");
                     response.addHeader("Authorization", "BEARER"+ " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
                     response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
-                    response.sendRedirect("/welcome");
                   }
                 }
             )
@@ -144,6 +148,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeParameter("remember-me") //token을 생성하기 위한 파라미터
                 .tokenValiditySeconds(86400 * 30) //한달 설정
                 .userDetailsService(customUserDetailService);
+
         //인증하는데 필요한 UserDetailService를 넣어줘야 한다. 없다면 만들어야 한다. 필수다!
 
         http.logout()
