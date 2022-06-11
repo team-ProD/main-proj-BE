@@ -71,11 +71,12 @@ public class FileController {
     return new ResponseEntity<>(message, headers, status);
   }
 
-  // 이미지는 그냥 따로 필요한지 모르겠는데 써놓기만함. 그냥 예시임.
-  @GetMapping("/images/{filename}")
-  public Resource showImage(@PathVariable String filename) throws
+  // 이미지
+  @GetMapping("/images/{uuid}")
+  public Resource showImage(@PathVariable String uuid) throws
       MalformedURLException {
-    String storedFileName = "/images/" + filename;
+    FileVO imageInfo = fileService.findById(uuid);
+    String storedFileName = tmpPath + imageInfo.getFilePath() + imageInfo.getUuid() + "_" + imageInfo.getOriName();
     //파일 경로
     Path saveFilePath = Paths.get(storedFileName);
 
@@ -86,11 +87,26 @@ public class FileController {
     return new UrlResource("file:" + saveFilePath);
   }
 
+  // 썸네일
+  @GetMapping("/images/thumbnail/{uuid}")
+  public Resource showThumbnailImage(@PathVariable String uuid) throws
+      MalformedURLException {
+    FileVO imageInfo = fileService.findById(uuid);
+    String storedFileName = tmpPath + imageInfo.getThumbnailPath() + "s_" + imageInfo.getUuid() + "_" + imageInfo.getOriName();
+    //파일 경로
+    Path saveFilePath = Paths.get(storedFileName);
 
-  @GetMapping("/attach/{itemId}")
-  public ResponseEntity<Resource> downloadAttach(HttpServletResponse res, @PathVariable Long itemId) throws MalformedURLException {
+    //해당 경로에 파일이 없으면
+    if(!saveFilePath.toFile().exists()) {
+      throw new RuntimeException("file not found");
+    }
+    return new UrlResource("file:" + saveFilePath);
+  }
+
+  @GetMapping("/attach/{uuid}")
+  public ResponseEntity<Resource> downloadAttach(HttpServletResponse res, @PathVariable String uuid) throws MalformedURLException {
     //...itemId 이용해서 고객이 업로드한 파일 이름인 uploadFileName랑 서버 내부에서 사용하는 파일 이름인 storeFileName을 얻는다는 내용은 생략
-    FileVO file = fileService.findById(itemId);
+    FileVO file = fileService.findById(uuid);
     String storedFileName = tmpPath + file.getFilePath() + file.getUuid()+"_"+file.getOriName();
     String uploadFileName = file.getOriName();
     //파일 경로

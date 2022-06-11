@@ -50,9 +50,6 @@ public class FIleServiceImpl implements FileService {
 
         String uuid = UUID.randomUUID().toString();
 
-
-
-
         File newFileName = new File(tmpPath+path + uuid+"_"+fileName);
         if (multipartFile.getSize() != 0) {
           if (!newFileName.exists()) {
@@ -95,19 +92,24 @@ public class FIleServiceImpl implements FileService {
       throws IOException {
     //썸네일 가공 후 파일 저장 로직
     // 여기서부터 파일 저장로직. 썸네일은 앞에 s_를 붙인다
-    File thumbnailFile = new File(tmpPath+path +"s_"+ uuid+"_"+fileName);
+    try {
+      File thumbnailFile = new File(tmpPath+path +"s_"+ uuid+"_"+fileName);
       if (!thumbnailFile.exists()) {
         if (thumbnailFile.getParentFile().mkdirs()) {
           thumbnailFile.createNewFile();
         }
       }
       Thumbnailator.createThumbnail(image, thumbnailFile,100,100);
+      return true;
+    } catch (Exception e) {
+      log.info(e.getMessage());
+    }
 
     return false;
   }
 
   @Override
-  public FileVO findById(Long itemId) {
-    return fileMapper.findById(itemId);
+  public FileVO findById(String uuid) {
+    return fileMapper.findById(uuid);
   }
 }

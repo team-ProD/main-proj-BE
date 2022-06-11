@@ -21,5 +21,5 @@ public interface FileService {
   boolean saveThumbnail(File image,String fileName, String path, String uuid)
       throws IOException;
 
-  FileVO findById(Long itemId);
+  FileVO findById(String uuid);
 }

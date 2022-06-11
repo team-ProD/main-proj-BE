@@ -43,5 +43,8 @@
     FROM PROD_MAIN.file
     WHERE id = #{id}
   </select>
+  <select id="getFileList" resultType="com.example.demo.file.vo.FileVO">
+    select * from PROD_MAIN.file
+  </select>
 
 </mapper>

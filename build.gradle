@@ -38,8 +38,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 }
 
 tasks.named('test') {

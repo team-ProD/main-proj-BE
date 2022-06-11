@@ -15,5 +15,5 @@ public interface FileMapper {
 
    int upload(FileVO fileVO);
 
-   FileVO findById(Long itemId);
+   FileVO findById(String uuid);
 }
