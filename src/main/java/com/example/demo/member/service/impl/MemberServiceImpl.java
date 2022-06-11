@@ -3,22 +3,11 @@ package com.example.demo.member.service.impl;
 import com.example.demo.member.mapper.MemberMapper;
 
 import com.example.demo.member.service.MemberService;
+import com.example.demo.member.vo.MemberVO;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-@Service
-public class MemberServiceImpl implements MemberService {
-
-
-
-import com.example.demo.security.mapper.UserMapper;
-import com.example.demo.member.service.MemberService;
-import com.example.demo.member.vo.MemberVO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
