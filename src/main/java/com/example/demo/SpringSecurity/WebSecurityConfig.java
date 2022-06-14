@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .defaultSuccessUrl("/welcome") //로그인 성공 시 url
                 .loginPage("/login") //커스텀 로그인 폼의 url 경로를 작성(권한이 필요한 페이지에 로그인이 안된 경우, 자동으로 여기에 적은 url 폼으로 이동)
-                .loginProcessingUrl("/login") //loginForm에서 로그인을 처리하는 action url 경로를 써준다. (여기서 로그인 처리란, Controller 에서 id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
+                .loginProcessingUrl("/members/login") //loginForm에서 로그인을 처리하는 action url 경로를 써준다. (여기서 로그인 처리란, Controller 에서 id,pw 검증 및 토큰 생성하는 메소드가 지정된 url)
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .successHandler(
@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             @Override
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                                 System.out.println("authentication : " + authentication.getName());
-                                response.sendRedirect("/members/login"); // 인증이 성공한 후에는 root로 이동
+                                response.sendRedirect("/welcome"); // 인증이 성공한 후에는 root로 이동
 
                             }
                         }
