@@ -4,7 +4,6 @@
 
 <mapper namespace="com.example.demo.file.mapper.FileMapper">
 
-
   <!-- 이렇게 주석달아주세요 위에 -->
   <insert id="upload"  parameterType="FileVO">
     INSERT INTO PROD_MAIN.file
