@@ -48,7 +48,7 @@
        where a.ID = b.TOOLID
          and b.PROFILEID  = c.ID
          and c.ID = d.PROFILEID
-         and d.PROJECTID = 1
+         and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
          and d.STATUS  = 'Y'
          and b.`level` is not NULL
        GROUP BY a.ID) bb
@@ -68,7 +68,7 @@
        where a.ID = b.TOOLID
          and b.PROFILEID  = c.ID
          and c.ID = d.PROFILEID
-         and d.PROJECTID = 1
+         and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
          and d.STATUS  = 'Y'
          and b.`level` > 3
        GROUP BY a.ID) bb
