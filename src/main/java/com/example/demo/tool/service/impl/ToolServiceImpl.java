@@ -22,5 +22,25 @@ public class ToolServiceImpl implements ToolService {
     return toolMapper.getToolList(toolVO);
   }
 
+  @Override
+  public List<ToolVO> getToolListWithMaster(ToolVO toolVO) {
+    return toolMapper.getToolListWithMaster(toolVO);
+  }
+
+  @Override
+  public List<ToolVO> getToolListWithAll(ToolVO toolVO) {
+    return toolMapper.getToolListWithAll(toolVO);
+  }
+
+  @Override
+  public List<ToolVO> getToolListWithUsed(ToolVO toolVO) {
+    return toolMapper.getToolListWithUsed(toolVO);
+  }
+
+  @Override
+  public List<ToolVO> getToolListWithFree(ToolVO toolVO) {
+    return toolMapper.getToolListWithFree(toolVO);
+  }
+
 
 }

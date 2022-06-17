@@ -103,6 +103,7 @@ public class FileController {
       MalformedURLException, IOException {
     FileVO imageInfo = fileService.findById(uuid);
     String storedFileName = tmpPath + imageInfo.getThumbnailPath() + "s_" + imageInfo.getUuid() + "_" + imageInfo.getOriName();
+
     //파일 경로
     Path saveFilePath = Paths.get(storedFileName);
 

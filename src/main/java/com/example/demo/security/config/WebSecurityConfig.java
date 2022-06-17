@@ -67,13 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //토큰 기반 인증이되므로 세션 역시 사용되지 않습니다.
                 .and()
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/api/**").hasRole("USER")
-                .antMatchers("/api/images/**").permitAll()
-                .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-                  // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
+            .antMatchers("/api/images/**").permitAll()
+            .antMatchers("/user/**").hasRole("USER")
+            .antMatchers("/api/**").hasRole("USER")
+            .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+      // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
