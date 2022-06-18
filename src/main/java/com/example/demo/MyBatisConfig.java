@@ -1,4 +1,4 @@
-package com.example.bsm;
+package com.example.demo;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 // 패키지명
-@MapperScan(value = "com.example.bsm", sqlSessionFactoryRef = "SqlSessionFactory")
+@MapperScan(value = "com.example.demo", sqlSessionFactoryRef = "SqlSessionFactory")
 public class MyBatisConfig {
 
   @Value("${mybatis.mapper-locations}")
@@ -34,7 +34,7 @@ public class MyBatisConfig {
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
     sqlSessionFactoryBean.setDataSource(DataSource);
     sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mPath));
-    sqlSessionFactoryBean.setTypeAliasesPackage("com.example.bsm.vo");
+    sqlSessionFactoryBean.setTypeAliasesPackage("com.example.demo");
     return sqlSessionFactoryBean.getObject();
   }
 
