@@ -1,6 +1,7 @@
 package com.example.demo.member.mapper;
 
 
+import com.example.demo.member.vo.ProfileVO;
 import java.util.List;
 
 import com.example.demo.member.vo.MemberVO;
@@ -15,6 +16,7 @@ public interface MemberMapper {
   int save(MemberVO memberVO);
 
   int chgPass(MemberVO memberVO);
+  int insertProfile(ProfileVO profileVO);
 
 
 }

@@ -27,5 +27,27 @@
     </selectKey>
   </update>
 
+  <!--member 등록 -->
+  <insert id="insertProfile" parameterType="com.example.demo.member.vo.ProfileVO" >
+    INSERT INTO PROD_MAIN.PROFILE(
+     member_id
+    , nickname
+    , position
+    , position_level
+    , create_date
+    )
+    VALUES(
+     #{memberId}
+    , #{nickname}
+    , #{position}
+    , #{positionLevel}
+    , now()
+    )
 
+    <!--사용자 기록 등록 확인하기 위한 select 문 -->
+    <selectKey keyProperty="id" resultType="int" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+
+  </insert>
 </mapper>

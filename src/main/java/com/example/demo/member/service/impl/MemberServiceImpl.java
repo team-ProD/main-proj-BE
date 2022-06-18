@@ -4,6 +4,7 @@ import com.example.demo.member.mapper.MemberMapper;
 
 import com.example.demo.member.service.MemberService;
 import com.example.demo.member.vo.MemberVO;
+import com.example.demo.member.vo.ProfileVO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class MemberServiceImpl implements MemberService {
 
   public int chgPassword(MemberVO memberVO){
     return memberMapper.chgPass(memberVO);
+  }
+
+  // 친구초대기능 관련해서 초대 전부터 프로필 정보가 필요하기 때문에, 가입할 때 프로필 정보 생성해주세요.
+  public int insertProfile(ProfileVO profileVO){
+    return memberMapper.insertProfile(profileVO);
   }
 
 }
