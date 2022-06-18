@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.tool.mapper.ToolMapper">
+
+
+  <!-- 이렇게 주석달아주세요 위에 -->
+  <select id="getToolList"  resultType="ToolVO">
+    SELECT
+        id, name
+    FROM TOOL
+      <if test="srchStr != null and !''.equals(srchStr)">
+        WHERE
+        name = #{srchStr, jdbcType=VARCHAR}
+      </if>
+  </select>
+
+
+
+</mapper>

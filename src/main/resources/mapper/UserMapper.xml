@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.security.mapper.UserMapper">
+
+    <resultMap id="MemberVOResultMap" type="com.example.demo.security.vo.UserVO">
+        <result property="email" column="EMAIL"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="name" column="NAME"/>
+        <result property="role" column="ROLE"/>
+        <result property="privacyAgree" column="PRIVACY_AGREE"/>
+        <result property="remoteLoginAgree" column="REMOTE_LOGIN_AGREE"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+    </resultMap>
+
+    <!--member 등록 -->
+    <insert id="save" parameterType="com.example.demo.member.vo.MemberVO" >
+        INSERT INTO MEMBER(EMAIL, PASSWORD, NAME, ROLE, PRIVACY_AGREE, REMOTE_LOGIN_AGREE , CREATE_DATE, MODIFY_DATE)
+        VALUES(#{email}, #{password}, #{name}, #{role}, #{privacyAgree}, #{remoteLoginAgree}, now(), now());
+
+        <!--사용자 기록 등록 확인하기 위한 select 문 -->
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <!--member 조회 -->
+    <select id="findByEmail" parameterType="String" resultMap="MemberVOResultMap">
+        SELECT *
+        FROM MEMBER
+        WHERE email = #{email}
+    </select>
+
+</mapper>
