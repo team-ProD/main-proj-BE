@@ -1,14 +1,12 @@
 package com.example.demo.security.config;
 
 
+import com.example.demo.security.jwt.CustomRememberMeAuthenticationFilter;
 import com.example.demo.security.jwt.JwtAuthenticationFilter;
 import com.example.demo.security.jwt.JwtTokenProvider;
 import com.example.demo.security.service.CustomOAuth2MemberService;
 import com.example.demo.security.service.CustomUserDetailService;
-import com.example.demo.security.vo.OAuthAttributes;
 import com.example.demo.security.vo.UserVO;
-import java.util.List;
-import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,16 +19,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -41,6 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomOAuth2MemberService customOAuth2MemberService;
 
+
+
+    @Autowired
+    RememberMeServices rememberMeServices;
 
     //remember-me 기능에 필요한 서비스 클래스
     @Autowired
@@ -72,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/images/**").permitAll()
                 .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
                 .and()
+                .addFilterBefore(new CustomRememberMeAuthenticationFilter(authenticationManagerBean(), rememberMeServices), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
                   // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
 
@@ -156,7 +161,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessUrl("/")
             .deleteCookies("jwt")
             .invalidateHttpSession(true);
-
 
 
 
