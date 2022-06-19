@@ -48,7 +48,7 @@ jobs:
     steps:
       - run:
           name: Deploy Over SSH
-          command: ssh -o StrictHostKeyChecking=no ubuntu@ec2-43-200-62-66.ap-northeast-2.compute.amazonaws.com "./deploy.sh"
+          command: ssh -o StrictHostKeyChecking=no ubuntu@43.200.62.66 "./deploy.sh"
 
 workflows:
   version: 2
