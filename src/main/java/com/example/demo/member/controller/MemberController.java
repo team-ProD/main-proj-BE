@@ -2,31 +2,18 @@ package com.example.demo.member.controller;
 
 import com.example.demo.common.vo.Message;
 import com.example.demo.member.service.impl.MemberServiceImpl;
-
-import java.nio.charset.Charset;
-import java.util.List;
-
 import com.example.demo.member.vo.MemberVO;
-import java.nio.charset.Charset;
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.nio.charset.Charset;
+import java.util.Collections;
 
 @RestController
 public class MemberController {
@@ -41,8 +28,11 @@ public class MemberController {
 
 
 
-
-  // 회원가입
+  /**
+   * 회원가입
+   * @param memberVO
+   * @return
+   */
   @PostMapping("/members/join")
   public ResponseEntity<Message> join(@RequestBody MemberVO memberVO ){ // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
     Message message = new Message();
