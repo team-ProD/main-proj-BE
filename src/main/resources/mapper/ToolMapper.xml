@@ -5,15 +5,81 @@
 <mapper namespace="com.example.demo.tool.mapper.ToolMapper">
 
 
-  <!-- 이렇게 주석달아주세요 위에 -->
+  <!-- 툴 리스트 조회 -->
   <select id="getToolList"  resultType="ToolVO">
     SELECT
-        id, name
-    FROM TOOL
-      <if test="srchStr != null and !''.equals(srchStr)">
-        WHERE
-        name = #{srchStr, jdbcType=VARCHAR}
-      </if>
+    id, name
+    FROM PROD_MAIN.TOOL
+    <if test="srchStr != null and !''.equals(srchStr)">
+      WHERE
+      name = #{srchStr, jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
+  <!-- 고수가 있는 툴 -->
+  <select id="getToolListWithMaster"  resultType="ToolVO">
+    select a.id,
+    c.MEMBER_ID,
+    c.ID profileid,
+    c.NICKNAME
+    from PROD_MAIN.TOOL a,
+    PROD_MAIN.PROFILE_TOOL b,
+    PROD_MAIN.PROFILE c,
+    PROD_MAIN.PROJECT_ATTENDANT d
+    where a.ID = b.TOOLID
+    and b.PROFILEID  = c.ID
+    and c.ID = d.PROFILEID
+    and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
+    and d.STATUS  = 'Y'
+    and b.`level` = 5 -- 변경예정  임의로 값 줬음.
+  </select>
+
+  <!-- 모든 멤버가 사용해본 -->
+  <select id="getToolListWithAll"  resultType="ToolVO">
+    select ID, NAME
+    from
+      (select count(*) cnt1 from PROD_MAIN.PROJECT_ATTENDANT where PROJECTID = 1) aa,
+      (select count(*) cnt2 , a.ID , a.NAME
+       from PROD_MAIN.TOOL a,
+            PROD_MAIN.PROFILE_TOOL b,
+            PROD_MAIN.PROFILE c,
+            PROD_MAIN.PROJECT_ATTENDANT d
+       where a.ID = b.TOOLID
+         and b.PROFILEID  = c.ID
+         and c.ID = d.PROFILEID
+         and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
+         and d.STATUS  = 'Y'
+         and b.`level` is not NULL
+       GROUP BY a.ID) bb
+    where aa.cnt1 = bb.cnt2
+  </select>
+
+  <!-- 가장 익숙한 -->
+  <select id="getToolListWithUsed"  resultType="ToolVO">
+    select ID, NAME
+    from
+      (select count(*) cnt1 from PROD_MAIN.PROJECT_ATTENDANT where PROJECTID = 1) aa,
+      (select count(*) cnt2 , a.ID , a.NAME
+       from PROD_MAIN.TOOL a,
+            PROD_MAIN.PROFILE_TOOL b,
+            PROD_MAIN.PROFILE c,
+            PROD_MAIN.PROJECT_ATTENDANT d
+       where a.ID = b.TOOLID
+         and b.PROFILEID  = c.ID
+         and c.ID = d.PROFILEID
+         and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
+         and d.STATUS  = 'Y'
+         and b.`level` > 3
+       GROUP BY a.ID) bb
+      <![CDATA[
+          where aa.cnt1/2 < bb.cnt2
+      ]]>
+  </select>
+
+  <!-- 무료인 -->
+  <select id="getToolListWithFree"  resultType="ToolVO">
+    select * from PROD_MAIN.TOOL where price is null
   </select>
 
 
