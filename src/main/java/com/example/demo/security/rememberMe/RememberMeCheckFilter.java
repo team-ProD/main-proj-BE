@@ -16,6 +16,7 @@ import java.util.Base64.Decoder;
 import java.util.List;
 
 @Component
+@WebFilter(value = "/login")
 public class RememberMeCheckFilter implements Filter {
 
     Authentication authentication;
