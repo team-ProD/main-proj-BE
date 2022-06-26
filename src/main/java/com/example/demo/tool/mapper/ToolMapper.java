@@ -11,5 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ToolMapper {
   List<ToolVO> getToolList(ToolVO toolVO);
+  List<ToolVO> getToolListWithMaster(ToolVO toolVO);
+  List<ToolVO> getToolListWithAll(ToolVO toolVO);
+  List<ToolVO> getToolListWithUsed(ToolVO toolVO);
+  List<ToolVO> getToolListWithFree(ToolVO toolVO);
 
 }

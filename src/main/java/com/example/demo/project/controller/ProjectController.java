@@ -25,10 +25,9 @@ public class ProjectController {
      *
      * @param projectVO
      * @return
-     * @throws JSONException
      */
     @PostMapping(value = "/project")
-    public ResponseEntity<Message> projectCreate(ProjectVO projectVO, @RequestPart("files") MultipartFile[] files) throws JSONException {
+    public ResponseEntity<Message> projectCreate(ProjectVO projectVO, @RequestPart("files") MultipartFile[] files) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -45,7 +44,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/project")
-    public ResponseEntity<Message> projectSelect(@RequestBody ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> projectSelect(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -71,7 +70,7 @@ public class ProjectController {
 
 
     @PutMapping(value = "/project")
-    public ResponseEntity<Message> projectUpdate(@RequestBody ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> projectUpdate(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -93,21 +92,15 @@ public class ProjectController {
      * 사용자 초대
      * @param projectVO
      * @return
-     * @throws JSONException
      */
     @PostMapping(value = "/project/attendant")
-    public ResponseEntity<Message> userAttendant(@RequestBody ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> userAttendant(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         //TODO 사용자 아이디 존재 여부 조회
-        /*int user = userController.findUser(projectVO.getProfileId());
-        if(user<1){
-            message.setStatus(HttpStatus.BAD_REQUEST.value());
-            message.setMessage("유효한 사용자가 아닙니다.");
-            return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
-        }*/
+
         try {
             projectService.userAttendant(projectVO);
             message.setStatus(HttpStatus.OK.value());
@@ -123,10 +116,9 @@ public class ProjectController {
      * 초대 수락
      * @param projectVO
      * @return
-     * @throws JSONException
      */
     @PutMapping(value = "/project/attendant")
-    public ResponseEntity<Message> attendantAccept(@RequestBody ProjectVO projectVO) throws JSONException {
+    public ResponseEntity<Message> attendantAccept(@RequestBody ProjectVO projectVO)  {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

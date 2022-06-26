@@ -9,5 +9,9 @@ import java.util.List;
  */
 public interface ToolService {
   List<ToolVO> getToolList(ToolVO toolVO);
+  List<ToolVO> getToolListWithMaster(ToolVO toolVO);
+  List<ToolVO> getToolListWithAll(ToolVO toolVO);
+  List<ToolVO> getToolListWithUsed(ToolVO toolVO);
+  List<ToolVO> getToolListWithFree(ToolVO toolVO);
 
 }
