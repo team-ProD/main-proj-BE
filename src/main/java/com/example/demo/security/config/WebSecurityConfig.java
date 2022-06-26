@@ -5,10 +5,7 @@ import com.example.demo.security.jwt.JwtAuthenticationFilter;
 import com.example.demo.security.jwt.JwtTokenProvider;
 import com.example.demo.security.service.CustomOAuth2MemberService;
 import com.example.demo.security.service.CustomUserDetailService;
-import com.example.demo.security.vo.OAuthAttributes;
 import com.example.demo.security.vo.UserVO;
-import java.util.List;
-import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,16 +18,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -38,9 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //토큰을 생성하고 검증하는 컴포넌트 클래스
     private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     CustomOAuth2MemberService customOAuth2MemberService;
-
 
     //remember-me 기능에 필요한 서비스 클래스
     @Autowired
@@ -59,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -67,13 +66,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //토큰 기반 인증이되므로 세션 역시 사용되지 않습니다.
                 .and()
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
-            .antMatchers("/api/images/**").permitAll()
-            .antMatchers("/user/**").hasRole("USER")
-            .antMatchers("/api/**").hasRole("USER")
-            .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
-            .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-      // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
+                .antMatchers("/api/images/**").permitAll()
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/api/**").hasRole("USER")
+                .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다.
 
         //로그인 폼 커스텀 페이지로 구현
         http.formLogin()
@@ -156,7 +155,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessUrl("/")
             .deleteCookies("jwt")
             .invalidateHttpSession(true);
-
 
 
 

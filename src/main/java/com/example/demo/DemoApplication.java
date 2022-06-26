@@ -17,6 +17,7 @@ public class DemoApplication {
     SpringApplication.run(DemoApplication.class, args);
   }
 
+
   @EventListener(ApplicationReadyEvent.class)
   public void triggerMail(){
     service.sendEmail(
