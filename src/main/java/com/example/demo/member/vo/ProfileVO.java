@@ -1,6 +1,8 @@
 package com.example.demo.member.vo;
 
 import java.util.Date;
+
+import com.example.demo.common.vo.CommonVO;
 import lombok.Data;
 
 /**
@@ -8,13 +10,13 @@ import lombok.Data;
  * https://github.com/hs95blue
  */
 @Data
-public class ProfileVO {
+public class ProfileVO extends CommonVO {
 
   private int id;
-  private int memberId;
   private String nickname;
   private String position;
   private int positionLevel;
+  private String phoneNumber;
   private Date createDate;
   private Date modifyDate;
 
