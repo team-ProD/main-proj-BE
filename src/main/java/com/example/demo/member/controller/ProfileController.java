@@ -54,7 +54,7 @@ public class ProfileController {
     /**
      * 임시저장
      */
-    @PatchMapping(value = "/profile")
+    @PatchMapping(value = "/profile/temp")
     public ResponseEntity<Message> updateTempProfile(ProfileVO profileVO)  {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
