@@ -19,7 +19,7 @@
 
   <update id="chgPass" parameterType="com.example.demo.member.vo.MemberVO">
     UPDATE MEMBER
-    SET PASSWORD = #{chgPassword}
+    SET PASSWORD = #{password}
     WHERE email = #{email}
 
     <selectKey keyProperty="id" resultType="int" order="AFTER">
@@ -47,9 +47,10 @@
 
 
   <update id="updateProfile" parameterType="ProfileVO">
-    UPDATE MEMBER
+    UPDATE PROFILE
     SET nickname = #{nickname},
         position = #{position},
+        phone_number = #{phoneNumber},
         position_level = #{positionLevel},
         status = 'C'
     WHERE member_id = #{id}

@@ -6,18 +6,22 @@
 
     <insert id="createProject" parameterType="ProjectVO">
         INSERT INTO PROJECT
-        ( NAME
+        (
+         NAME
         , LOGO_NAME
         , LOGO_PATH
         , SUMMARY
         , ATTENDANT_NUMBER
-        , CREATE_DATE)
-        VALUES ( #{name}
+        , CREATE_DATE
+        )
+        VALUES (
+                #{name}
                , #{logoName}
                , #{logoPath}
                , #{summary}
                , #{attendantNumber}
-               , NOW())
+               , NOW()
+               )
     </insert>
 
     <select id="selectProject" parameterType="ProjectVO" resultType="ProjectVO">
@@ -30,12 +34,12 @@
         UPDATE PROJECT
         <trim prefix="SET" suffixOverrides=",">
             MODIFY_DATE = NOW(),
-            <if test="name != null and name != ''">NAME = #{name},</if>
-            <if test="logoName != null and logoName != ''">LOGO_NAME = #{logoName},</if>
-            <if test="logoPath != null and logoPath != ''">LOGO_PATH = #{logoPath},</if>
-            <if test="summary != null and summary != ''">SUMMARY = #{summary},</if>
-            <if test="startDate != null and startDate != ''">START_DATE = #{startDate},</if>
-            <if test="endDate != null and endDate != ''">END_DATE = #{endDate},</if>
+            <if test="name != null and !name.equals('')">NAME = #{name},</if>
+            <if test="logoName != null and !logoName.equals('')">LOGO_NAME = #{logoName},</if>
+            <if test="logoPath != null and !logoPath .equals('')">LOGO_PATH = #{logoPath},</if>
+            <if test="summary != null and !summary.equals('')">SUMMARY = #{summary},</if>
+            <if test="startDate != null and !startDate.equals('')">START_DATE = #{startDate},</if>
+            <if test="endDate != null and !endDate.equals('')">END_DATE = #{endDate},</if>
         </trim>
         WHERE ID = #{id}
     </update>
@@ -49,10 +53,10 @@
          INVITE_DATE
         )
         VALUES (
-                #{profileId}
-               , #{id}
-               , 'R'
-               , NOW()
+                #{profileId},
+                #{id},
+                'R',
+                NOW()
                )
     </insert>
     

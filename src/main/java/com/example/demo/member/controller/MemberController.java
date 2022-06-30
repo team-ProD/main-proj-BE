@@ -75,7 +75,7 @@ public class MemberController {
     Message message = new Message();
     HttpHeaders headers = new HttpHeaders();
     headers.set("demo", "ChangePassword");
-
+    memberVO.setEmail(email);
     try{
       dbResult = memberService.chgPassword(memberVO);
       if(dbResult <= 0){

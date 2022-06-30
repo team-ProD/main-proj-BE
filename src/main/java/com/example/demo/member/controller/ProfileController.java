@@ -2,6 +2,7 @@ package com.example.demo.member.controller;
 
 import com.example.demo.common.vo.Message;
 import com.example.demo.member.service.MemberService;
+import com.example.demo.member.service.impl.MemberServiceImpl;
 import com.example.demo.member.vo.ProfileVO;
 import com.example.demo.project.vo.ProjectVO;
 import lombok.extern.log4j.Log4j2;
@@ -21,18 +22,18 @@ import java.util.List;
  * @since 2022-06-28 오후 4:39
  */
 @RestController
-@RequestMapping("/api")
+// @RequestMapping("/api")
 @Log4j2
 public class ProfileController {
 
     @Autowired
-    MemberService memberService;
+    MemberServiceImpl memberService;
 
     /**
      * 프로필 조회 (작성여부도 같이 겸사겸사)
      */
     @GetMapping(value = "/profile/{memberId}/{projectId}")
-    public ResponseEntity<Message> getProfile(@PathVariable String memberId, @PathVariable String projectId, ProfileVO profileVO) {
+    public ResponseEntity<Message> getProfile(@PathVariable String memberId, @PathVariable String projectId,@RequestBody ProfileVO profileVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -55,7 +56,7 @@ public class ProfileController {
      * 임시저장
      */
     @PatchMapping(value = "/profile/temp")
-    public ResponseEntity<Message> updateTempProfile(ProfileVO profileVO)  {
+    public ResponseEntity<Message> updateTempProfile(@RequestBody ProfileVO profileVO)  {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -72,19 +73,27 @@ public class ProfileController {
     }
     /**
      * 프로필 수정완료
+     * @Param profileVO
      */
-    @PatchMapping(value = "/profile")
-    public ResponseEntity<Message> updateProfile(ProfileVO profileVO)  {
+    @PutMapping("/profile")
+    public ResponseEntity<Message> updateProfile(@RequestBody ProfileVO profileVO)  {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try {
-            memberService.updateProfile(profileVO);
-            message.setStatus(HttpStatus.OK.value());
-            message.setMessage("저장 완료");
+            int cnt = memberService.updateProfile(profileVO);
+            if (cnt == 1) {
+                message.setStatus(HttpStatus.OK.value());
+                message.getData().put("data", profileVO);
+                message.setMessage("저장 완료");
+            } else {
+                message.setMessage("저장 실패. 해당 프로필 정보가 없습니다.");
+            }
+
         } catch (Exception e) {
             message.setMessage(String.valueOf(e));
+            log.info(e.getMessage());
         }
 
         return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
@@ -93,7 +102,7 @@ public class ProfileController {
      * 프로젝트 참여자 프로필 조회 , 툴에 대한 아이디, 전화번호 등의 정보도 같이!
      */
     @GetMapping(value = "/profiles/{projectId}")
-    public ResponseEntity<Message> getProfile( @PathVariable String projectId, ProfileVO profileVO) {
+    public ResponseEntity<Message> getProfile( @PathVariable String projectId,@RequestBody ProfileVO profileVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

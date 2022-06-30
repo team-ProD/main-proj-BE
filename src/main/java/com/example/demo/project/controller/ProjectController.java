@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Log4j2
-@RequestMapping("/api")
+// @RequestMapping("/api")
 public class ProjectController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ProjectController {
      * @return
      */
     @PostMapping(value = "/project")
-    public ResponseEntity<Message> projectCreate(ProjectVO projectVO, @RequestPart("files") MultipartFile[] files) {
+    public ResponseEntity<Message> projectCreate(@RequestBody ProjectVO projectVO, @RequestParam(required = false) MultipartFile[] files) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -48,18 +48,19 @@ public class ProjectController {
         return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
     }
 
-    @GetMapping(value = "/project")
-    public ResponseEntity<Message> projectSelect(@RequestBody ProjectVO projectVO) {
+    @GetMapping(value = "/project/{id}")
+    public ResponseEntity<Message> projectSelect(@PathVariable int id) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
+        ProjectVO projectVO = new ProjectVO();
+        projectVO.setId(id);
         try {
-            ProjectVO projectVO1 = projectService.selectProject(projectVO);
-            if (projectVO1 != null) {
+            ProjectVO vo = projectService.selectProject(projectVO);
+            if (vo != null) {
                 message.setStatus(HttpStatus.OK.value());
                 message.setMessage("프로젝트 조회 완료");
-                message.getData().put("project", projectVO1);
+                message.getData().put("project", vo);
             } else {
                 message.setStatus(HttpStatus.BAD_REQUEST.value());
                 message.setMessage("조회된 프로젝트가 없습니다.");
@@ -73,7 +74,7 @@ public class ProjectController {
         return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
     }
 
-
+    // TODO 이미지 변경도 같이 들어가는지 확인하고 필요시 넣을 것
     @PatchMapping(value = "/project")
     public ResponseEntity<Message> projectUpdate(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
@@ -147,7 +148,7 @@ public class ProjectController {
      * 사용자별 프로젝트 조회
      */
     @GetMapping(value = "/projects/{memberId}")
-    public ResponseEntity<Message> getProjectByMemberId(@PathVariable String memberId,ProjectVO projectVO) {
+    public ResponseEntity<Message> getProjectByMemberId(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -174,7 +175,7 @@ public class ProjectController {
      * 초대받은 프로젝트 갯수 체크
      */
     @GetMapping(value = "/projects/invited/{memberId}")
-    public ResponseEntity<Message> getProjectCntInvited(@PathVariable String memberId,ProjectVO projectVO) {
+    public ResponseEntity<Message> getProjectCntInvited(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -197,7 +198,7 @@ public class ProjectController {
      * 프로젝트 생성 > 팀구성 (추가)
      */
     @PostMapping(value = "/team")
-    public ResponseEntity<Message> addNewTeam(ProjectVO projectVO) {
+    public ResponseEntity<Message> addNewTeam(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -242,7 +243,7 @@ public class ProjectController {
      * 초대된 멤버리스트 노출
      */
     @GetMapping(value = "/project/members/invited")
-    public ResponseEntity<Message> getMembersInvited(ProjectVO projectVO) {
+    public ResponseEntity<Message> getMembersInvited(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -268,7 +269,7 @@ public class ProjectController {
      * 사용중인 협업툴 링크 조회
      */
     @GetMapping(value = "/project/tools")
-    public ResponseEntity<Message> getToolInfoByProjectId(ProjectVO projectVO) {
+    public ResponseEntity<Message> getToolInfoByProjectId(@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -316,7 +317,7 @@ public class ProjectController {
      * 프로젝트 내에 팀 정보 조회
      */
     @GetMapping(value = "/project/teams")
-    public ResponseEntity<Message> getTeamInfo(@PathVariable String memberId,ProjectVO projectVO) {
+    public ResponseEntity<Message> getTeamInfo(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
