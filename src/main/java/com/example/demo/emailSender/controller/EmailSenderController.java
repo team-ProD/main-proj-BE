@@ -1,19 +1,13 @@
 package com.example.demo.emailSender.controller;
 
-import com.example.demo.common.vo.Message;
 import com.example.demo.emailSender.service.EmailSenderService;
 import com.example.demo.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
-import java.nio.charset.Charset;
 
 @RestController
 public class EmailSenderController {
@@ -59,36 +53,6 @@ public class EmailSenderController {
         emailSenderService.sendEmail(memberVO.getEmail(), "[ProD 이메일 인증]", emailcontent.toString());
 
     }
-    
-    //인증 이메일의 인증 버튼 눌렀을때 certified 를 1로 바꿔주는 메소드
-    @GetMapping(value = "/email/join/certified/{id}")
-    public ResponseEntity<Message> joinCertified(@PathVariable int id){
-        int result = -1;
-        Message message = new Message();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("demo", "Join Certified");
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        HttpStatus status = null;
-        try {
-            result = emailSenderService.joinCertified(id);
-            if (result == 1) {
-                status = HttpStatus.OK;
-                message.setStatus(HttpStatus.OK.value());
-                message.setMessage("회원가입 인증을 성공하였습니다.");
-            } else {
-                throw new Exception();
-            }
-        }catch (Exception e){
-            status = HttpStatus.BAD_REQUEST;
-            message.setStatus(HttpStatus.BAD_REQUEST.value());
-            message.setMessage("회원가입 인증을 실패하였습니다.");
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(message, headers, status);
-    }
-
-
 
     //email로 DB 조회하여 MemberVO 가져오기
     public MemberVO getUserVO(String email){
@@ -105,9 +69,9 @@ public class EmailSenderController {
     @GetMapping(value = "/email/password/{id}")
     public void sendChgPasswordMail(@PathVariable int id) throws MessagingException{
         MemberVO memberVO = getUserVO(id);
-//        int result = -1;
-//
-//        result = emailSenderService.resetPassword(id);
+        int result = -1;
+
+        result = emailSenderService.resetPassword(id);
 
 
         StringBuffer emailcontent = new StringBuffer();
@@ -132,7 +96,7 @@ public class EmailSenderController {
                         "		감사합니다." +
                         "	</p>" +
                         "<a style=\"color: #FFF; text-decoration: none; text-align: center;\" " +
-                        "   href=\"http://localhost:8080/email/passwordForm/" + memberVO.getId() + "\">" +
+                        "   href=\"http://localhost:8080/email/passwordForm/ \">" +
                         "	    <p style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #7879f1; line-height: 45px; vertical-align: middle; font-size: 16px;\">" +
                         "	    비밀번호 변경</p>" +
                         "</a>" +
