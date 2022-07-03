@@ -6,7 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EmailSenderMapper {
 
-    MemberVO getUserName(String email);
+    MemberVO getUserVOfromEmail(String email);
+
+    MemberVO getUserVOfromId(int id);
 
     int updateCertified(int id);
+
+    int resetPassword(int id);
 }
