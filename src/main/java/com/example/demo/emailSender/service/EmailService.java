@@ -13,9 +13,17 @@ public class EmailService {
     @Autowired
     EmailMapper emailMapper;
 
+    public int joinCertified(int id) {
+        return emailMapper.updateCertified(id);
+    }
+
     public int chgPassword(String afterPassword) {
         afterPassword = passwordEncoder.encode(afterPassword);
 
         return emailMapper.chgPassword(afterPassword);
+    }
+
+    public int projectParticipated(int id) {
+        return emailMapper.projectParticipated(id);
     }
 }

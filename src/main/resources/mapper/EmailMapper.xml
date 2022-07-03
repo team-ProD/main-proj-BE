@@ -12,5 +12,19 @@
 
     </update>
 
+    <!--user 메일 인증 certified 업데이트 -->
+    <update id="updateCertified" parameterType="int">
+        UPDATE MEMBER
+        SET certified = 1
+        WHERE ID = #{id}
+    </update>
 
+    <!--프로젝트 수락 시, status Y 로 업데이트 -->
+    <update id="projectParticipated" parameterType="int">
+        UPDATE PROJECT_ATTENDANT
+        SET STATUS = 'Y'
+        WHERE PROFILEID = (SELECT ID
+                            FROM PROFILE
+                           WHERE member_id = #{id});
+    </update>
 </mapper>

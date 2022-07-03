@@ -10,7 +10,7 @@ public interface EmailSenderMapper {
 
     MemberVO getUserVOfromId(int id);
 
-    int updateCertified(int id);
+
 
     int resetPassword(int id);
 }

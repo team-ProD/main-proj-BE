@@ -81,11 +81,8 @@ public class EmailSenderService {
         return emailSenderMapper.getUserVOfromId(id);
     }
 
-    public int joinCertified(int id) {
-        return emailSenderMapper.updateCertified(id);
-    }
-
     public int resetPassword(int id) {
         return emailSenderMapper.resetPassword(id);
     }
+
 }
