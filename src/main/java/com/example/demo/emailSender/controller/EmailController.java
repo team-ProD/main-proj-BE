@@ -36,20 +36,19 @@ public class EmailController {
         int dbResult = 0;
 
         dbResult = emailService.chgPassword(afterPassword);
-        if(dbResult <= 0){
+        if (dbResult <= 0) {
             return "/error";
-        }else {
+        } else {
             return "/sucess";
         }
     }
 
-    //인증 이메일의 인증 버튼 눌렀을때 certified 를 1로 바꿔주는 메소드
+    //인증메일의 인증 버튼 눌렀을때 certified 를 1로 바꿔주는 메소드
     @GetMapping(value = "/email/join/certified/{id}")
-    public String joinCertified(@PathVariable int id){
+    public String joinCertified(@PathVariable int id) {
         int result = -1;
 
-
-        result = emailSenderService.joinCertified(id);
+        result = emailService.joinCertified(id);
         if (result <= 0) {
             return "/error";
         } else {
@@ -57,4 +56,19 @@ public class EmailController {
         }
 
     }
+
+    //프로젝트 초대 수락 버튼 눌렀을때 certified 를 1로 바꿔주는 메소드
+    @GetMapping(value = "email/project/participate/{id}")
+    public String projectParticipated(@PathVariable int id) {
+        int result = -1;
+
+        result = emailService.projectParticipated(id);
+        if (result <= 0) {
+            return "/error";
+        } else {
+            return "/sucess";
+        }
+
+    }
+
 }

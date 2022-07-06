@@ -1,11 +1,8 @@
 package com.example.demo.security.service;
 
-import com.example.demo.member.vo.MemberVO;
 import com.example.demo.security.mapper.UserMapper;
 import com.example.demo.security.vo.OAuthAttributes;
 import com.example.demo.security.vo.UserVO;
-import java.util.Collections;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,6 +12,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
 
 /**
  * Created by Hyunsik Lee on 2022-06-10. Blog : https://hs95blue.github.io/ Github :
@@ -60,6 +60,7 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 
   private UserVO saveOrUpdate(OAuthAttributes attributes) {
     UserVO userVO;
+
     if(userMapper.findByEmail(attributes.getEmail())!=null) {
       userVO = userMapper.findByEmail(attributes.getEmail());
     }
