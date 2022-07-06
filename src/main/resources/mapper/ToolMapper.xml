@@ -8,7 +8,7 @@
   <!-- 툴 리스트 조회 -->
   <select id="getToolList"  resultType="ToolVO">
     SELECT
-    id, name
+    id, name, price
     FROM PROD_MAIN.TOOL
     <if test="srchStr != null and !''.equals(srchStr)">
       WHERE

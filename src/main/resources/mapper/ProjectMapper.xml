@@ -6,18 +6,22 @@
 
     <insert id="createProject" parameterType="ProjectVO">
         INSERT INTO PROJECT
-        ( NAME
+        (
+         NAME
         , LOGO_NAME
         , LOGO_PATH
         , SUMMARY
         , ATTENDANT_NUMBER
-        , CREATE_DATE)
-        VALUES ( #{name}
+        , CREATE_DATE
+        )
+        VALUES (
+                #{name}
                , #{logoName}
                , #{logoPath}
                , #{summary}
                , #{attendantNumber}
-               , NOW())
+               , NOW()
+               )
     </insert>
 
     <select id="selectProject" parameterType="ProjectVO" resultType="ProjectVO">
@@ -30,32 +34,116 @@
         UPDATE PROJECT
         <trim prefix="SET" suffixOverrides=",">
             MODIFY_DATE = NOW(),
-            <if test="name != null and name != ''">NAME = #{name},</if>
-            <if test="logoName != null and logoName != ''">LOGO_NAME = #{logoName},</if>
-            <if test="logoPath != null and logoPath != ''">LOGO_PATH = #{logoPath},</if>
-            <if test="summary != null and summary != ''">SUMMARY = #{summary},</if>
-            <if test="startDate != null and startDate != ''">START_DATE = #{startDate},</if>
-            <if test="endDate != null and endDate != ''">END_DATE = #{endDate},</if>
+            <if test="name != null and !name.equals('')">NAME = #{name},</if>
+            <if test="logoName != null and !logoName.equals('')">LOGO_NAME = #{logoName},</if>
+            <if test="logoPath != null and !logoPath .equals('')">LOGO_PATH = #{logoPath},</if>
+            <if test="summary != null and !summary.equals('')">SUMMARY = #{summary},</if>
+            <if test="startDate != null and !startDate.equals('')">START_DATE = #{startDate},</if>
+            <if test="endDate != null and !endDate.equals('')">END_DATE = #{endDate},</if>
         </trim>
         WHERE ID = #{id}
     </update>
 
     <insert id="userAttendant" parameterType="ProjectVO">
         INSERT INTO PROJECT_ATTENDANT
-        ( PROFILEID
-        , PROJECTID
-        , STATUS
-        , INVITE_DATE)
-        VALUES ( #{profileId}
-               , #{id}y
-               , 'Y'
-               , NOW())
+        (
+         PROFILEID,
+         PROJECTID,
+         STATUS,
+         INVITE_DATE
+        )
+        VALUES (
+                #{profileId},
+                #{id},
+                'R',
+                NOW()
+               )
     </insert>
     
     <update id="attendantAccept" parameterType="ProjectVO">
         UPDATE PROJECT_ATTENDANT
-        SET JOIN_DATE = NOW()
+        SET JOIN_DATE = NOW(),
+            STATUS = 'Y'
         WHERE PROFILEID = #{profileId}
         AND PROJECTID = #{id}
     </update>
+
+    <update id="attendantDeny" parameterType="ProjectVO">
+        UPDATE PROJECT_ATTENDANT
+        SET JOIN_DATE = NOW(),
+            STATUS = 'N'
+        WHERE PROFILEID = #{profileId}
+          AND PROJECTID = #{id}
+    </update>
+
+    <select id="getProjectByMemberId" parameterType="ProjectVO" resultType="ProjectVO">
+        SELECT p.*
+        from PROJECT p , PROJECT_ATTENDANT pa, `MEMBER` m, PROFILE p2
+        WHERE p.id = pa.PROJECTID
+          and p2.MEMBER_ID
+          and m.ID
+          and m.ID = #{memberId}
+    </select>
+
+    <select id="getProjectCntInvited" parameterType="ProjectVO" resultType="ProjectVO">
+        SELECT COUNT(*) cnt
+        FROM PROJECT_ATTENDANT pa, `MEMBER` m, PROFILE p2
+        WHERE m.ID = p2.MEMBER_ID
+          and pa.PROFILEID = p2.ID
+          and m.ID = #{memberId}
+    </select>
+
+    <insert id="addNewTeam" parameterType="ProjectVO">
+        INSERT INTO TEAM
+        (
+         PROJECT_ID,
+         NAME
+        )
+        VALUES (
+                #{id},
+                #{name}
+               )
+    </insert>
+
+    <update id="updateProfileWithTeam" parameterType="ProjectVO">
+        UPDATE PROJECT_ATTENDANT
+        SET team_id = #{teamId},
+        WHERE PROFILEID = #{profileId}
+          AND PROJECTID = #{id}
+    </update>
+
+    <select id="getMembersInvited" parameterType="ProjectVO" resultType="MemberVO">
+        SELECT m.*
+        FROM PROJECT_ATTENDANT pa, `MEMBER` m, PROFILE p2,PROJECT p
+        WHERE m.ID = p2.MEMBER_ID
+          AND pa.PROFILEID = p2.ID
+          AND p.ID = pa.PROJECTID
+          AND p.ID = #{projectId}
+    </select>
+
+    <select id="getToolInfoByProjectId" parameterType="ProjectVO" resultType="ProjectVO">
+        SELECT pt2.* FROM PROJECT_TOOL pt2, PROJECT p
+        WHERE pt2.project_id = p.ID
+          AND p.ID = #{projectId}
+    </select>
+
+    <insert id="addNewTool" parameterType="ProjectVO">
+        INSERT INTO PROJECT_TOOL
+        ( PROJECT_ID, TOOL_ID, LINK, STATUS)
+        VALUES
+        <foreach collection="arrayData" item="item" separator=" , " >
+            (
+            #{item.projectId, jdbcType=VARCHAR},
+            #{item.toolId, jdbcType=VARCHAR},
+            #{item.link, jdbcType=VARCHAR},
+            'R' -- 대기중
+            )
+        </foreach>
+    </insert>
+
+    <select id="getTeamInfo" parameterType="ProjectVO" resultType="ProjectVO">
+        SELECT * FROM PROJECT_ATTENDANT pa  where pa.PROJECTID = #{id} ORDER BY team_id ASC
+    </select>
+
+
 </mapper>

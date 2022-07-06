@@ -28,4 +28,34 @@
     </selectKey>
   </update>
 
+
+  <select id="getProfile" parameterType="ProfileVO" resultType="ProfileVO">
+    SELECT * from PROFILE p , PROJECT_ATTENDANT pa where p.ID = pa.PROFILEID and pa.PROJECTID = #{projectId} and p.MEMBER_ID = #{memberId}
+  </select>
+
+  <select id="getProfileList" parameterType="ProfileVO" resultType="ProfileVO">
+    select * from PROFILE p , PROFILE_TOOL pt, TOOL t  where p.ID  = pt.PROFILEID and pt.TOOLID = t.ID and p.ID in (select pa.PROFILEID from PROJECT_ATTENDANT pa where pa.PROJECTID = #{projectId})
+  </select>
+
+
+  <update id="updateTempProfile" parameterType="ProfileVO">
+    UPDATE MEMBER
+    SET nickname = #{nickname},
+        position = #{position},
+        position_level = #{positionLevel},
+        status = 'T'
+    WHERE member_id = #{id}
+  </update>
+
+
+  <update id="updateProfile" parameterType="ProfileVO">
+    UPDATE PROFILE
+    SET nickname = #{nickname},
+        position = #{position},
+        phone_number = #{phoneNumber},
+        position_level = #{positionLevel},
+        status = 'C'
+    WHERE member_id = #{id}
+  </update>
+
 </mapper>

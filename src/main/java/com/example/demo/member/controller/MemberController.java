@@ -76,6 +76,7 @@ public class MemberController {
     HttpHeaders headers = new HttpHeaders();
     headers.set("demo", "ChangePassword");
 
+
     memberVO.setEmail(email);
     memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 

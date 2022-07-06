@@ -3,6 +3,11 @@ package com.example.demo.member.service.impl;
 import com.example.demo.member.mapper.MemberMapper;
 import com.example.demo.member.service.MemberService;
 import com.example.demo.member.vo.MemberVO;
+
+import java.util.List;
+
+import com.example.demo.member.vo.ProfileVO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,4 +41,23 @@ public class MemberServiceImpl implements MemberService {
     return memberMapper.chgPass(memberVO);
   }
 
+  @Override
+  public ProfileVO getProfile(ProfileVO profileVO){
+    return memberMapper.getProfile(profileVO);
+  }
+
+  @Override
+  public  List<ProfileVO> getProfileList(ProfileVO profileVO){
+    return memberMapper.getProfileList(profileVO);
+  }
+
+  @Override
+  public int updateTempProfile(ProfileVO profileVO){
+    return memberMapper.updateTempProfile(profileVO);
+  }
+
+  @Override
+  public int updateProfile(ProfileVO profileVO){
+    return memberMapper.updateProfile(profileVO);
+  }
 }

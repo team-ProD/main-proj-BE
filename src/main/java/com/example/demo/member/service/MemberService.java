@@ -11,4 +11,12 @@ public interface MemberService {
 
   public int chgPassword(MemberVO memberVO);
 
+   ProfileVO getProfile(ProfileVO profileVO);
+
+   List<ProfileVO> getProfileList(ProfileVO profileVO);
+
+   int updateTempProfile(ProfileVO profileVO);
+
+   int updateProfile(ProfileVO profileVO);
+
 }
