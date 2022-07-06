@@ -49,13 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
     // authenticationManager 를 Bean 등록합니다.
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
 
     @Override
@@ -86,14 +86,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             @Override
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                                 System.out.println("authentication : " + authentication.getName());
-                              final String user = ((UserVO) authentication.getPrincipal()).getEmail();
-                              final List<String> roles = ((UserVO) authentication.getPrincipal()).getRoles();
-                              final String token = jwtTokenProvider.createToken(user,roles);
-                              Cookie cookie = new Cookie("jwt",token);
-                              cookie.setPath("/");
-                              response.addHeader("Authorization", "BEARER"+ " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
-                              response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
-                              response.sendRedirect("/welcome");
+                                final String user = ((UserVO) authentication.getPrincipal()).getEmail();
+                                final List<String> roles = ((UserVO) authentication.getPrincipal()).getRoles();
+                                final String token = jwtTokenProvider.createToken(user, roles);
+                                Cookie cookie = new Cookie("jwt", token);
+                                cookie.setPath("/");
+                                response.addHeader("Authorization", "BEARER" + " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
+                                response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
+                                response.sendRedirect("/welcome");
                             }
                         }
                 )
@@ -108,39 +108,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 );
 
 
-            http
-            .oauth2Login().userInfoEndpoint()
-            .userService(customOAuth2MemberService)
-            // authorizeEndpoint는 oauth로직을 시작하게 하는건데, 요청단을 직접 짜줘야함. 안짜고 uri만 지정해주니 404가 뜨는거였음!
-            .and()
-            .loginPage("/login")
+        http
+                .oauth2Login().userInfoEndpoint()
+                .userService(customOAuth2MemberService)
+                // authorizeEndpoint는 oauth로직을 시작하게 하는건데, 요청단을 직접 짜줘야함. 안짜고 uri만 지정해주니 404가 뜨는거였음!
+                .and()
+                .loginPage("/login")
 
                 .successHandler(
-                new AuthenticationSuccessHandler() {
-                  @Override
-                  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                    System.out.println("authentication : " + authentication.getName());
-                    final String user =  (String)((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("email");
-                    final List<String> roles =  (List<String>) ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("roles");
-                    final String token = jwtTokenProvider.createToken(user,roles);
-                    Cookie cookie = new Cookie("jwt",token);
-                    cookie.setPath("/");
-                    response.addHeader("Authorization", "BEARER"+ " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
-                    response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
-                    response.sendRedirect("/welcome");
+                        new AuthenticationSuccessHandler() {
+                            @Override
+                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                                System.out.println("authentication : " + authentication.getName());
+                                final String user = (String) ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("email");
+                                final List<String> roles = (List<String>) ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes().get("roles");
+                                final String token = jwtTokenProvider.createToken(user, roles);
+                                Cookie cookie = new Cookie("jwt", token);
+                                cookie.setPath("/");
+                                response.addHeader("Authorization", "BEARER" + " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
+                                response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
+                                response.sendRedirect("/welcome");
 
-                  }
-                }
-            )
-            .failureHandler(
-                new AuthenticationFailureHandler() {
-                  @Override
-                  public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-                    System.out.println("exception : " + exception.getMessage());
-                    response.sendRedirect("/login");
-                  }
-                }
-            );
+                            }
+                        }
+                )
+                .failureHandler(
+                        new AuthenticationFailureHandler() {
+                            @Override
+                            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                                System.out.println("exception : " + exception.getMessage());
+                                response.sendRedirect("/login");
+                            }
+                        }
+                );
 
         //remeber-me : 자동로그인 기능 설정
         http.rememberMe()
@@ -152,14 +152,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //인증하는데 필요한 UserDetailService를 넣어줘야 한다. 없다면 만들어야 한다. 필수다!
 
         http.logout()
-            .logoutSuccessUrl("/")
-            .deleteCookies("jwt")
-            .invalidateHttpSession(true);
+                .logoutSuccessUrl("/")
+                .deleteCookies("jwt")
+                .invalidateHttpSession(true);
 
 
 
     }
-
 
 
 }
