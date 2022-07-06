@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class CommonVO {
   private String srchStr;
-  private String memberId;
+  private int memberId;
   private String projectId;
   private int cnt = 0;
   private String status;

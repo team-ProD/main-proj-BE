@@ -33,7 +33,7 @@ public class ProfileController {
      * 프로필 조회 (작성여부도 같이 겸사겸사)
      */
     @GetMapping(value = "/profile/{memberId}/{projectId}")
-    public ResponseEntity<Message> getProfile(@PathVariable String memberId, @PathVariable String projectId,@RequestBody ProfileVO profileVO) {
+    public ResponseEntity<Message> getProfile(@PathVariable int memberId, @PathVariable String projectId,@RequestBody ProfileVO profileVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

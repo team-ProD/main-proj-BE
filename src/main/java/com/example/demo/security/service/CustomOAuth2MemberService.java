@@ -1,9 +1,12 @@
 package com.example.demo.security.service;
 
+import com.example.demo.member.service.impl.MemberServiceImpl;
+import com.example.demo.member.vo.ProfileVO;
 import com.example.demo.security.mapper.UserMapper;
 import com.example.demo.security.vo.OAuthAttributes;
 import com.example.demo.security.vo.UserVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -27,6 +30,10 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 
   private final UserMapper userMapper;
   private final HttpSession httpSession;
+
+  @Autowired
+  MemberServiceImpl memberService;
+
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -67,6 +74,10 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
     else {
       userVO = attributes.toEntity();
       userMapper.save(userVO);
+      ProfileVO vo = new ProfileVO();
+
+      vo.setMemberId(userVO.getId());
+      memberService.insertProfile(vo);
       userVO = userMapper.findByEmail(attributes.getEmail());
     }
 

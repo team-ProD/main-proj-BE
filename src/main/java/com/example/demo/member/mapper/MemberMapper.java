@@ -27,4 +27,6 @@ public interface MemberMapper {
 
   int updateProfile(ProfileVO profileVO);
 
+  int insertProfile(ProfileVO profileVO);
+
 }

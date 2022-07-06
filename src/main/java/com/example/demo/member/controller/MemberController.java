@@ -3,6 +3,7 @@ package com.example.demo.member.controller;
 import com.example.demo.common.vo.Message;
 import com.example.demo.member.service.impl.MemberServiceImpl;
 import com.example.demo.member.vo.MemberVO;
+import com.example.demo.member.vo.ProfileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,16 +44,23 @@ public class MemberController {
 
     try{
       // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
-      int result = memberService.saveUser(MemberVO.builder()
-          .email(memberVO.getEmail())
-          .password(passwordEncoder.encode(memberVO.getPassword()))
-          .roles(Collections.singletonList("ROLE_USER"))
-          .name(memberVO.getName())
-          .privacyAgree(memberVO.getPrivacyAgree())  // 1,0으로 넣으셨는데 Y,N도 괜찮을듯~!
-          .remoteLoginAgree(memberVO.getRemoteLoginAgree()) //
-          .build());
+      memberVO = MemberVO.builder()
+              .email(memberVO.getEmail())
+              .password(passwordEncoder.encode(memberVO.getPassword()))
+              .roles(Collections.singletonList("ROLE_USER"))
+              .name(memberVO.getName())
+              .privacyAgree(memberVO.getPrivacyAgree())  // 1,0으로 넣으셨는데 Y,N도 괜찮을듯~!
+              .remoteLoginAgree(memberVO.getRemoteLoginAgree()) //
+              .build();
+
+      // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
+      int result = memberService.saveUser(memberVO); // 이렇게 해야 selectKey가 받아짐.
       // 가입완료된 회원데이터 프론트에 보내주면 쓸데가 많을 것같아서 보내주기.
-      message.getData().put("result",result); // 조회시 보낼 데이터 이렇게 넣어주세요
+      message.getData().put("result",memberVO); // 조회시 보낼 데이터 이렇게 넣어주세요
+      ProfileVO vo = new ProfileVO();
+
+      vo.setMemberId(memberVO.getId());
+      memberService.insertProfile(vo);
       //회원가입이 완료된 경우 1을 반환하기에 1보다 작은 result 값은 회원가입을 성공하지 못했다는 것.
       if(result < 1){
         throw new Exception();

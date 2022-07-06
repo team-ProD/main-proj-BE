@@ -148,7 +148,7 @@ public class ProjectController {
      * 사용자별 프로젝트 조회
      */
     @GetMapping(value = "/projects/{memberId}")
-    public ResponseEntity<Message> getProjectByMemberId(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
+    public ResponseEntity<Message> getProjectByMemberId(@PathVariable int memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -175,7 +175,7 @@ public class ProjectController {
      * 초대받은 프로젝트 갯수 체크
      */
     @GetMapping(value = "/projects/invited/{memberId}")
-    public ResponseEntity<Message> getProjectCntInvited(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
+    public ResponseEntity<Message> getProjectCntInvited(@PathVariable int memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -317,7 +317,7 @@ public class ProjectController {
      * 프로젝트 내에 팀 정보 조회
      */
     @GetMapping(value = "/project/teams")
-    public ResponseEntity<Message> getTeamInfo(@PathVariable String memberId,@RequestBody ProjectVO projectVO) {
+    public ResponseEntity<Message> getTeamInfo(@PathVariable int memberId,@RequestBody ProjectVO projectVO) {
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
