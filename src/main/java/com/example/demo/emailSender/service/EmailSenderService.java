@@ -73,11 +73,19 @@ public class EmailSenderService {
     }
 
 
-    public MemberVO getCertifiedUserName(String email) {
-        return emailSenderMapper.getUserName(email);
+    public MemberVO getUserVO(String email) {
+        return emailSenderMapper.getUserVOfromEmail(email);
+    }
+
+    public MemberVO getUserVO(int id) {
+        return emailSenderMapper.getUserVOfromId(id);
     }
 
     public int joinCertified(int id) {
         return emailSenderMapper.updateCertified(id);
+    }
+
+    public int resetPassword(int id) {
+        return emailSenderMapper.resetPassword(id);
     }
 }

@@ -17,15 +17,15 @@
 
   </insert>
 
-  <update id="chgPass" parameterType="com.example.demo.member.vo.MemberVO">
+  <!--member 비밀번호 변경 -->
+  <update id="chgPass" parameterType="MemberVO">
     UPDATE MEMBER
-    SET PASSWORD = #{chgPassword}
+    SET PASSWORD = #{password}
     WHERE email = #{email}
 
     <selectKey keyProperty="id" resultType="int" order="AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey>
   </update>
-
 
 </mapper>

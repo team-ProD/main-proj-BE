@@ -4,11 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.emailSender.mapper.EmailSenderMapper">
-    <!--user 정보 조회 -->
-    <select id="getUserName" parameterType="String" resultType="MemberVO">
+    <!--email 로 user 정보 조회 -->
+    <select id="getUserVOfromEmail" parameterType="String" resultType="MemberVO">
         SELECT *
         FROM MEMBER
         WHERE email = #{email}
+    </select>
+
+    <!--id 로 user 정보 조회 -->
+    <select id="getUserVOfromId" parameterType="int" resultType="MemberVO">
+        SELECT *
+        FROM MEMBER
+        WHERE id = #{id}
     </select>
 
     <!--user 메일 인증 certified 업데이트 -->
@@ -16,6 +23,12 @@
         UPDATE MEMBER
         SET certified = 1
         WHERE ID = #{id}
+    </update>
 
+    <!--비밀번호 변경 메일 보냈을때 사용자 비밀번호 초기화 -->
+    <update id="resetPassword" parameterType="int">
+        UPDATE MEMBER
+        SET password = 'prodTemp'
+        WHERE ID = #{id}
     </update>
 </mapper>

@@ -76,8 +76,12 @@ public class MemberController {
     HttpHeaders headers = new HttpHeaders();
     headers.set("demo", "ChangePassword");
 
+    memberVO.setEmail(email);
+    memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+
     try{
       dbResult = memberService.chgPassword(memberVO);
+      System.out.println("변경된 값: " + dbResult);
       if(dbResult <= 0){
         throw new Exception();
       }else {
