@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.emailSender.mapper.EmailSenderMapper">
+    <!--user 정보 조회 -->
+    <select id="getUserName" parameterType="String" resultType="MemberVO">
+        SELECT *
+        FROM MEMBER
+        WHERE email = #{email}
+    </select>
+
+    <!--user 메일 인증 certified 업데이트 -->
+    <update id="updateCertified" parameterType="int">
+        UPDATE MEMBER
+        SET certified = 1
+        WHERE ID = #{id}
+
+    </update>
+</mapper>

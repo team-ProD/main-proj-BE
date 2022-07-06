@@ -23,7 +23,7 @@ public class CustomUserDetailService implements UserDetailsService {
         UserVO userDbInfo = userMapper.findByEmail(username);
         //String 타입의 role을 List로 만들어서 UserDetails에 담아야한다.
         userDbInfo.setRoles(Collections.singletonList(userDbInfo.getRole()));
-        System.out.println("UserDetailsService 에서 가져온 UserDetail: "  + userDbInfo);
+//        System.out.println("UserDetailsService 에서 가져온 UserDetail: "  + userDbInfo);
         return userDbInfo;
     }
 }
