@@ -1,0 +1,28 @@
+2022-06-28 11:34:44,502 INFO o.s.b.StartupInfoLogger [restartedMain] Starting DemoApplication using Java 11.0.11 on DESKTOP-ICAQFNR with PID 22592 (C:\Users\PCONN-LHS\Documents\github\main-proj-BE\build\classes\java\main started by PCONN-LHS in C:\Users\PCONN-LHS\Documents\github\main-proj-BE)
+2022-06-28 11:34:44,512 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-06-28 11:34:44,571 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-28 11:34:44,571 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-28 11:34:45,886 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$3735c765] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-28 11:34:45,918 INFO o.s.w.s.a.s.AbstractAddressingEndpointMapping [restartedMain] Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2022-06-28 11:34:46,246 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2022-06-28 11:34:46,256 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2022-06-28 11:34:46,258 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2022-06-28 11:34:46,258 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-06-28 11:34:46,379 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2022-06-28 11:34:46,380 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1808 ms
+2022-06-28 11:34:47,064 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will not secure any request
+2022-06-28 11:34:47,507 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2022-06-28 11:34:47,538 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2022-06-28 11:34:47,562 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-28 11:34:47,574 INFO o.s.b.StartupInfoLogger [restartedMain] Started DemoApplication in 3.484 seconds (JVM running for 4.885)
+2022-06-28 11:34:51,380 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-28 11:34:51,380 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2022-06-28 11:34:51,381 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2022-06-28 11:34:52,700 INFO c.z.h.HikariDataSource [http-nio-8080-exec-2] HikariPool-1 - Starting...
+2022-06-28 11:34:52,948 INFO c.z.h.HikariDataSource [http-nio-8080-exec-2] HikariPool-1 - Start completed.
+2022-06-28 11:34:53,005 INFO n.s.l.l.s.Slf4jSpyLogDelegator [http-nio-8080-exec-2] SELECT *
+        FROM MEMBER
+        WHERE email = 'test'
+ {executed in 18 msec}
+2022-06-28 11:39:53,632 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2022-06-28 11:39:53,669 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
