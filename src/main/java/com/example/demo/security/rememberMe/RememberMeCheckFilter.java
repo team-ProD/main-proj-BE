@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import java.util.Base64.Decoder;
 import java.util.List;
 
 @Component
-@WebFilter(value = "/login")
+//@WebFilter(value = "/login")
 public class RememberMeCheckFilter implements Filter {
 
     Authentication authentication;
@@ -42,7 +41,6 @@ public class RememberMeCheckFilter implements Filter {
             //쿠키에 remeberMe 가 있다면 token 값 새로 발급
             if (rememberMeCookie != null) {
                 userId = extractUserId(rememberMeCookie);
-                System.out.println("################## 사용자 ID: " + userId);
                 insertTokenOnCookie(userId, httpResponse);
                 httpResponse.sendRedirect("/welcome");
             }

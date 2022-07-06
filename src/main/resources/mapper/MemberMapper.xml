@@ -17,7 +17,8 @@
 
   </insert>
 
-  <update id="chgPass" parameterType="com.example.demo.member.vo.MemberVO">
+  <!--member 비밀번호 변경 -->
+  <update id="chgPass" parameterType="MemberVO">
     UPDATE MEMBER
     SET PASSWORD = #{password}
     WHERE email = #{email}
@@ -26,6 +27,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
   </update>
+
 
   <select id="getProfile" parameterType="ProfileVO" resultType="ProfileVO">
     SELECT * from PROFILE p , PROJECT_ATTENDANT pa where p.ID = pa.PROFILEID and pa.PROJECTID = #{projectId} and p.MEMBER_ID = #{memberId}
@@ -55,4 +57,5 @@
         status = 'C'
     WHERE member_id = #{id}
   </update>
+
 </mapper>

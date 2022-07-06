@@ -1,6 +1,5 @@
 package com.example.demo.security.vo;
 
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,12 +7,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +32,7 @@ public class UserVO implements UserDetails, OAuth2User {
     private int remoteLoginAgree;
     private String createDate;
     private String modifyDate;
+    private int certified;
 
     @Override
     public <A> A getAttribute(String name) {

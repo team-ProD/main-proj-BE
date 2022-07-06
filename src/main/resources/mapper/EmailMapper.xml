@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.emailSender.mapper.EmailMapper">
+    <!--member 비밀번호 변경 -->
+    <update id="chgPassword" parameterType="String">
+        UPDATE MEMBER
+        SET PASSWORD = #{beforePassword}
+        WHERE PASSWORD = "prodTemp"
+
+    </update>
+
+    <!--user 메일 인증 certified 업데이트 -->
+    <update id="updateCertified" parameterType="int">
+        UPDATE MEMBER
+        SET certified = 1
+        WHERE ID = #{id}
+    </update>
+
+    <!--프로젝트 수락 시, status Y 로 업데이트 -->
+    <update id="projectParticipated" parameterType="int">
+        UPDATE PROJECT_ATTENDANT
+        SET STATUS = 'Y'
+        WHERE PROFILEID = (SELECT ID
+                            FROM PROFILE
+                           WHERE member_id = #{id});
+    </update>
+</mapper>
