@@ -19,4 +19,5 @@ public interface MemberService {
 
    int updateProfile(ProfileVO profileVO);
 
+    public int insertProfile(ProfileVO profileVO);
 }

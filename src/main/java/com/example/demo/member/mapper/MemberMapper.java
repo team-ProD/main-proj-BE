@@ -9,6 +9,8 @@ import com.example.demo.security.vo.UserVO;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface MemberMapper {
 
@@ -24,5 +26,7 @@ public interface MemberMapper {
   int updateTempProfile(ProfileVO profileVO);
 
   int updateProfile(ProfileVO profileVO);
+
+  int insertProfile(ProfileVO profileVO);
 
 }

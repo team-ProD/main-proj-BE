@@ -60,4 +60,10 @@ public class MemberServiceImpl implements MemberService {
   public int updateProfile(ProfileVO profileVO){
     return memberMapper.updateProfile(profileVO);
   }
+
+  // 친구초대기능 관련해서 초대 전부터 프로필 정보가 필요하기 때문에, 가입할 때 프로필 정보 생성해주세요.
+  public int insertProfile(ProfileVO profileVO){
+    return memberMapper.insertProfile(profileVO);
+  }
+
 }
