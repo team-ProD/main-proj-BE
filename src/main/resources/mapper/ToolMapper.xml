@@ -82,6 +82,20 @@
     select * from PROD_MAIN.TOOL where price is null
   </select>
 
+ <!--  사용중인 툴 -->
 
+  <select id="getUsingTool"  resultType="ToolVO">
+    select * from PROD_MAIN.PROJECT_TOOL where status='Y'
+  </select>
+
+  <!-- 프로젝트 관련 툴 정보 변경 -->
+  <update id="updateProjectTool" parameterType="ToolVO">
+    UPDATE PROD_MAIN.PROJECT_TOOL
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="link != null and !link.equals('')">link = #{link},</if>
+      <if test="status != null and !status.equals('')">status = #{status},</if>
+    </trim>
+    WHERE ID = #{id}
+  </update>
 
 </mapper>
