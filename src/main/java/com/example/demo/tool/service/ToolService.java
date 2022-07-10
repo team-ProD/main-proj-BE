@@ -13,5 +13,7 @@ public interface ToolService {
   List<ToolVO> getToolListWithAll(ToolVO toolVO);
   List<ToolVO> getToolListWithUsed(ToolVO toolVO);
   List<ToolVO> getToolListWithFree(ToolVO toolVO);
+  List<ToolVO> getUsingTool(ToolVO toolVO);
+  int updateProjectTool(ToolVO toolVO);
 
 }
