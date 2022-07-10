@@ -335,4 +335,94 @@ public class ProjectController {
 
         return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
     }
+
+
+    /**
+     * 프로젝트 룸 생성
+     */
+    @PostMapping(value = "/project/room")
+    public ResponseEntity<Message> addProjectRoom(@RequestBody ProjectVO projectVO) {
+        Message message = new Message();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        //TODO 사용자 아이디 존재 여부 조회
+
+        try {
+            projectService.createProjectRoom(projectVO);
+            message.setStatus(HttpStatus.OK.value());
+            message.setMessage("프로젝트룸 등록 완료");
+        } catch (Exception e) {
+            message.setMessage(String.valueOf(e));
+            log.info(e.getMessage());
+        }
+
+        return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
+    }
+
+    /**
+     * 프로젝트 룸 조회
+     */
+    @GetMapping(value = "/project/room")
+    public ResponseEntity<Message> getProjectRoomInfo(@PathVariable int memberId,@RequestBody ProjectVO projectVO) {
+        Message message = new Message();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        projectVO.setMemberId(memberId);
+        try {
+            List<ProjectVO> list = projectService.getProjectRoom(projectVO);
+            message.setStatus(HttpStatus.OK.value());
+            message.setMessage("프로젝트 룸 정보 조회 완료");
+            message.getData().put("list", list);
+
+        } catch (Exception e) {
+            message.setMessage(String.valueOf(e));
+            log.info(e.getMessage());
+        }
+
+        return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
+    }
+
+    /**
+     * 프로젝트 룸 정보 수정
+     */
+    @PatchMapping(value = "/project/room")
+    public ResponseEntity<Message> projectRoomUpdate(@RequestBody ProjectVO projectVO) {
+        Message message = new Message();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        try {
+            projectService.updateProjectRoom(projectVO);
+
+            message.setStatus(HttpStatus.OK.value());
+            message.setMessage("프로젝트 룸  수정 완료");
+        } catch (Exception e) {
+            message.setMessage(String.valueOf(e));
+        }
+
+        return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
+    }
+
+
+    /**
+     * 프로젝트 룸  삭제
+     */
+    @DeleteMapping(value = "/project/room")
+    public ResponseEntity<Message> delProjectRoom(@RequestBody ProjectVO projectVO) {
+        Message message = new Message();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        try {
+            projectService.delProjectRoom(projectVO);
+
+            message.setStatus(HttpStatus.OK.value());
+            message.setMessage("프로젝트 룸  삭제 완료");
+        } catch (Exception e) {
+            message.setMessage(String.valueOf(e));
+        }
+
+        return ResponseEntity.status(message.getStatus()).headers(headers).body(message);
+    }
 }

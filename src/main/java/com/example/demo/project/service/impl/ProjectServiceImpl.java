@@ -150,4 +150,28 @@ public class ProjectServiceImpl implements ProjectService {
     public int updateProfileWithTeam(ProjectVO projectVO){
         return projectMapper.updateProfileWithTeam(projectVO);
     }
+    /**
+     * 프로젝트 룸 생성
+     */
+    public int createProjectRoom(ProjectVO projectVO){
+        return projectMapper.createProjectRoom(projectVO);
+    }
+    /**
+     * 프로젝트 룸 조회
+     */
+    public List<ProjectVO> getProjectRoom(ProjectVO projectVO){
+        return projectMapper.getProjectRoom(projectVO);
+    }
+    /**
+     * 프로젝트 룸 수정
+     */
+    public int updateProjectRoom(ProjectVO projectVO){
+        return projectMapper.updateProjectRoom(projectVO);
+    }
+    /**
+     * 프로젝트 룸 삭제
+     */
+    public int delProjectRoom(ProjectVO projectVO){
+        return projectMapper.delProjectRoom(projectVO);
+    }
 }

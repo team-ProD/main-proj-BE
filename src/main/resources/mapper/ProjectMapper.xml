@@ -146,4 +146,59 @@
     </select>
 
 
+  <insert id="createProjectRoom" parameterType="ProjectVO">
+    INSERT INTO PROJECT_ROOM
+    (
+        project_id
+      , name
+      , start_date
+      , end_date
+      , members
+      , link
+      , info
+      , tool_id
+      , tool_name
+    )
+    VALUES (
+             #{projectId}
+           , #{name}
+           , #{startDate}
+           , #{endDate}
+           , #{members}
+           , #{link}
+           , #{info}
+           , #{toolId}
+           , #{toolName}
+           )
+  </insert>
+
+
+  <select id="getProjectRoom" parameterType="ProjectVO" resultType="ProjectVO">
+    SELECT * FROM PROJECT_ROOM where project_id = #{projectId}
+    <if test="id != null and !''.equals(id)">
+      and id = {id}
+    </if>
+  </select>
+
+
+  <update id="updateProjectRoom" parameterType="ProjectVO">
+    UPDATE PROJECT_ROOM
+      SET name = #{name},
+          start_date = #{startDate},
+          end_date = #{endDate},
+          members = #{members},
+          link = #{link},
+          info = #{info},
+          tool_id = #{toolId},
+          tool_name = #{toolName}
+        WHERE project_id = #{profileId}
+          AND id = #{id}
+  </update>
+
+  <delete id="delProjectRoom" parameterType="ProjectVO">
+    delete PROJECT_ROOM
+         WHERE project_id = #{profileId}
+         AND id = #{id}
+  </delete>
+
 </mapper>
