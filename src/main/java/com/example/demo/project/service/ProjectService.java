@@ -84,4 +84,24 @@ public interface ProjectService {
      * 팀구성원 추가
      */
     int updateProfileWithTeam(ProjectVO projectVO);
+
+    /**
+     * 프로젝트 룸 생성
+     */
+    int createProjectRoom(ProjectVO projectVO);
+
+    /**
+     * 프로젝트 룸 조회
+     */
+    List<ProjectVO> getProjectRoom(ProjectVO projectVO);
+
+    /**
+     * 프로젝트 룸 수정
+     */
+    int updateProjectRoom(ProjectVO projectVO);
+
+    /**
+     * 프로젝트 룸 삭제
+     */
+    int delProjectRoom(ProjectVO projectVO);
 }

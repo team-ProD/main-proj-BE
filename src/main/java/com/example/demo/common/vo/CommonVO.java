@@ -18,5 +18,7 @@ public class CommonVO {
   private String toolid;
   private String level;
   private String account;
+  private String toolName;
+  private String toolId;
 
 }
