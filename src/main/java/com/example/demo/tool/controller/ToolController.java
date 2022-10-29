@@ -47,7 +47,7 @@ public class ToolController {
 
 
   @GetMapping("/tools/master")
-  public ResponseEntity<Message> getToolListWithMaster( ToolVO toolVO) {
+  public ResponseEntity<Message> getToolListWithMaster(ToolVO toolVO) {
     Message message = new Message();
     HttpHeaders headers= new HttpHeaders();
     headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

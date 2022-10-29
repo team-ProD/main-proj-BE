@@ -6,6 +6,7 @@ import com.example.demo.security.jwt.JwtTokenProvider;
 import com.example.demo.security.service.CustomOAuth2MemberService;
 import com.example.demo.security.service.CustomUserDetailService;
 import com.example.demo.security.vo.UserVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -93,7 +95,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 cookie.setPath("/");
                                 response.addHeader("Authorization", "BEARER" + " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
                                 response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
-                                response.sendRedirect("/welcome");
+                                ObjectMapper objectMapper = new ObjectMapper();
+                                HashMap<String, String> map = new HashMap<>();
+                                map.put("token", token);
+                                String result = objectMapper.writeValueAsString(map);
+                                response.getWriter().write(result);
                             }
                         }
                 )

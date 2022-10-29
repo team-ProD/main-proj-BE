@@ -19,9 +19,6 @@ import java.util.Collections;
 @RestController
 public class MemberController {
 
-
-
-
   @Autowired
   PasswordEncoder passwordEncoder; // RequiredConstructor 써도 되는데 다른 방식도 보여주고 싶었습니당.
   @Autowired
@@ -35,15 +32,13 @@ public class MemberController {
    * @return
    */
   @PostMapping("/members/join")
-  public ResponseEntity<Message> join(@RequestBody MemberVO memberVO ){ // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
+  public ResponseEntity<Message> join(@RequestBody MemberVO memberVO){
     Message message = new Message();
     HttpHeaders headers= new HttpHeaders();
-    headers.set("demo", "Join"); // 헤더에 왜 넣어주는지 나중에 알려주세요 (몰라서)
     headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
     HttpStatus status = HttpStatus.OK;
 
     try{
-      // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
       memberVO = MemberVO.builder()
               .email(memberVO.getEmail())
               .password(passwordEncoder.encode(memberVO.getPassword()))
@@ -53,8 +48,11 @@ public class MemberController {
               .remoteLoginAgree(memberVO.getRemoteLoginAgree()) //
               .build();
 
+
       // lombok이 있으니 Map을 쓸필요가없어서 고쳤습니다
       int result = memberService.saveUser(memberVO); // 이렇게 해야 selectKey가 받아짐.
+
+
       // 가입완료된 회원데이터 프론트에 보내주면 쓸데가 많을 것같아서 보내주기.
       message.getData().put("result",memberVO); // 조회시 보낼 데이터 이렇게 넣어주세요
       ProfileVO vo = new ProfileVO();

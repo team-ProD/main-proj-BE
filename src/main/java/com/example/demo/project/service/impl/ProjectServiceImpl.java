@@ -1,21 +1,16 @@
 package com.example.demo.project.service.impl;
 
-import com.example.demo.file.service.impl.FIleServiceImpl;
+import com.example.demo.file.service.impl.FileServiceImpl;
 import com.example.demo.file.vo.FileVO;
 import com.example.demo.member.vo.MemberVO;
 import com.example.demo.project.mapper.ProjectMapper;
 import com.example.demo.project.service.ProjectService;
 import com.example.demo.project.vo.ProjectVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -24,7 +19,7 @@ public class ProjectServiceImpl implements ProjectService {
     ProjectMapper projectMapper;
 
     @Autowired
-    FIleServiceImpl fileService;
+    FileServiceImpl fileService;
 
     /**
      * 프로젝트 조회

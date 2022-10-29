@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2022-06-28 오후 4:39
  */
 @RestController
-// @RequestMapping("/api")
+@RequestMapping("/api")
 @Log4j2
 public class ProfileController {
 

@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 @Log4j2
-public class FIleServiceImpl implements FileService {
+public class FileServiceImpl implements FileService {
 
   @Autowired
   FileMapper fileMapper;

@@ -49,6 +49,7 @@
          and b.PROFILEID  = c.ID
          and c.ID = d.PROFILEID
          and d.PROJECTID = #{projectid, jdbcType=VARCHAR}
+
          and d.STATUS  = 'Y'
          and b.`level` is not NULL
        GROUP BY a.ID) bb
