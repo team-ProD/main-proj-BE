@@ -5,6 +5,7 @@ import com.example.demo.member.service.impl.MemberServiceImpl;
 import com.example.demo.member.vo.MemberVO;
 import com.example.demo.member.vo.ProfileVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 
 @RestController
+@RequestMapping("/api")
 public class MemberController {
 
   @Autowired
@@ -65,6 +67,10 @@ public class MemberController {
       }
       message.setStatus(HttpStatus.OK.value());
       message.setMessage("회원가입을 성공하였습니다.");
+    }catch (DuplicateKeyException e){
+      message.setStatus(HttpStatus.BAD_REQUEST.value());
+      message.setMessage("이미 가입된 이메일입니다.");
+      e.printStackTrace();
     }catch (Exception e){
       message.setStatus(HttpStatus.BAD_REQUEST.value());
       message.setMessage("회원가입을 실패하였습니다.");
