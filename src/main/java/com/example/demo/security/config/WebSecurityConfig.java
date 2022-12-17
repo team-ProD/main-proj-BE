@@ -70,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests() //요청에 대한 사용권한 체크
                 .antMatchers("/api/images/**").permitAll()
                 .antMatchers("/api/members/join").permitAll()
+                .antMatchers("/api/members/login").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/api/**").hasRole("USER")
                 .anyRequest().permitAll() //그외 나머지 요청은 누구나 접근 가능
@@ -135,6 +136,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 response.addHeader("Authorization", "BEARER" + " " + token); // jwt 토큰을 헤더로 넘기고 싶으면!
                                 response.addCookie(cookie); // jwt 토큰을 쿠키로 넘기고 싶으면!
                                 response.sendRedirect("/welcome");
+                                response.getWriter().write(token);
 
                             }
                         }

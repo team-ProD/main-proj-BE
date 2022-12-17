@@ -4,6 +4,10 @@ import com.example.demo.common.vo.Message;
 import com.example.demo.member.service.impl.MemberServiceImpl;
 import com.example.demo.member.vo.MemberVO;
 import com.example.demo.member.vo.ProfileVO;
+import com.example.demo.security.jwt.JwtTokenProvider;
+import com.example.demo.security.service.CustomUserDetailService;
+import com.example.demo.security.vo.UserVO;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +29,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api")
+@Log4j2
 public class MemberController {
 
   @Autowired
@@ -26,7 +37,68 @@ public class MemberController {
   @Autowired
   MemberServiceImpl memberService;
 
+  @Autowired
+  JwtTokenProvider jwtTokenProvider;
 
+  @Autowired
+  CustomUserDetailService customUserDetailService;
+  /**
+   * JWT 로그인
+   * @param uservo
+   * @return
+   */
+  @PostMapping("/members/login")
+  public ResponseEntity<Message> login(@RequestBody UserVO uservo){
+    Message message = new Message();
+    HttpHeaders headers= new HttpHeaders();
+    headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+    HttpStatus status = HttpStatus.OK;
+
+    try {
+      UserDetails userInfo = customUserDetailService.loadUserByUsername(uservo.getUsername());
+      if (userInfo == null) {
+        message.setMessage("존재하지 않는 사용자입니다.");
+        throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
+      }
+      Authentication auth = new UsernamePasswordAuthenticationToken(uservo, passwordEncoder.encode(uservo.getPassword()));
+      log.info("userDto : "+uservo.getPassword());
+      log.info("userInfo : "+userInfo.getPassword());
+      if (!passwordEncoder.matches(uservo.getPassword(), userInfo.getPassword())) {
+        message.setMessage("비밀번호가 틀립니다.");
+        // matches : 평문, 암호문 패스워드 비교 후 boolean 결과 return
+        throw new BadCredentialsException("비밀번호가 틀립니다.");
+      }
+
+
+      uservo.getRoles().add("USER");
+      SecurityContextHolder.getContext().setAuthentication(auth);
+      String token = jwtTokenProvider.createToken(auth.getName(),uservo.getRoles());
+      message.setStatus(200);
+      message.setMessage("로그인 성공!");
+      message.getData().put("data",userInfo); // 조회시 보낼 데이터 이렇게 넣어주세요
+      message.getData().put("token",token); // 조회시 보낼 데이터 이렇게 넣어주세요
+      // message.setData(); 데이터 넣을게 없음..
+    } catch(UsernameNotFoundException e){
+      log.info(e.getMessage());
+      message.setStatus(201);
+      message.setMessage("존재하지 않는 사용자입니다.");
+    }catch(BadCredentialsException e){
+      log.info(e.getMessage());
+      message.setStatus(202);
+      message.setMessage("비밀번호가 틀립니다.");
+    } catch(NullPointerException e){
+      log.info(e.getMessage());
+      message.setStatus(201);
+      message.setMessage("존재하지 않는 사용자입니다.");
+    }catch(Exception e) {
+      log.info(e.getMessage());
+      message.setStatus(500);
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      message.setMessage("로그인 실패하였습니다.");
+    }
+
+    return new ResponseEntity<>(message, headers, status);
+  }
 
   /**
    * 회원가입
@@ -115,7 +187,6 @@ public class MemberController {
   @PreAuthorize("hasAnyRole('USER')") //해당 메서드가 호출되기 이전에 권한을 검사한다. 현재 사용자의 권한이 파라미터의 권한 중 일치하는 것이 있는 경우 true 를 리턴
   public String mypage() {
     return "권한이 필요한 페이지 요청 받음";
-
   }
 
 
